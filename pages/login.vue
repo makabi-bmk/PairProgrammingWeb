@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
-    <v-form ref="form"">
+    <v-form ref="form">
       <v-card-title class="d-flex justify-center pa-0 mt-6 mb-3"
         >ログイン</v-card-title
       >
