@@ -1,13 +1,13 @@
 <template>
 <div>
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
-    <v-form ref="form" v-model="valid">
+    <v-form ref="form"">
       <v-card-title class="d-flex justify-center pa-0 mt-6 mb-3"
         >ログイン</v-card-title
       >
       <v-card-text class="d-flex justify-center flex-column">
         <div class="mx-9">
-          <v-text-field
+          <!-- <v-text-field
             label="クラスID"
             placeholder="15文字以内"
             outlined
@@ -20,7 +20,7 @@
             outlined
             dense
             :rules="nameRules"
-          ></v-text-field>
+          ></v-text-field> -->
           <!-- <v-text-field
             label="メールアドレス"
             placeholder="mail@example.com"
@@ -28,16 +28,16 @@
             dense
             :rules="mailRules"
           ></v-text-field> -->
-          <v-text-field
+          <!-- <v-text-field
             label="パスワード"
             placeholder="8文字以上の半角英数記号"
             outlined
             dense
             :rules="pwRules"
-          ></v-text-field>
+          ></v-text-field> -->
         </div>
         <div class="text-center">
-          <v-btn class="primary" :disabled="!valid">ログイン</v-btn>
+          <v-btn class="primary" @click="signInWithGoogle">Googleアカウントでログイン</v-btn>
         </div>
         <div class="text-center">
           <a href="./login">教員用ログインはこちら</a>
@@ -146,29 +146,46 @@
 </template>
  
 <script>
-export default {
-  data() {
-    return {
-      valid: false,
-      mailRules: [
-        (v) => !!v || "mail is required",
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
-      pwRules: [(v) => !!v || "password is required"],
-    };
-  },
-  methods: {
-    validate() {
-      this.$refs.form.validate();
+// export default {
+//   data() {
+//     return {
+//       valid: false,
+//       mailRules: [
+//         (v) => !!v || "mail is required",
+//         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
+//       pwRules: [(v) => !!v || "password is required"],
+//     };
+//   },
+//   methods: {
+//     validate() {
+//       this.$refs.form.validate();
+//     },
+//     submitTwitte() {
+//       // ツイッターログインの処理
+//     },
+//     submitGoogle() {
+//       // グーグルログインの処理
+//     },
+//     forgetPw() {
+//       // パスワードを忘れた時の処理
+//     },
+//   },
+// };
+  export default {
+    layout: "default",
+    name: "login",
+    methods: {
+      async signInWithGoogle() {
+      const provider = new this.$fireModule.default.auth.GoogleAuthProvider();
+      await this.$fire.auth.signInWithPopup(provider).then(res => {
+  
+        res.user.getIdToken(true).then(idToken => {
+          localStorage.setItem('access_token', idToken.toString())
+          localStorage.setItem('refresh_token', res.user.refreshToken.toString())
+        })
+      })
+      console.log('成功しました')
     },
-    submitTwitte() {
-      // ツイッターログインの処理
     },
-    submitGoogle() {
-      // グーグルログインの処理
-    },
-    forgetPw() {
-      // パスワードを忘れた時の処理
-    },
-  },
-};
+  }
 </script>
