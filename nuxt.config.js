@@ -67,6 +67,7 @@ export default {
           measurementId: process.env.measurementId
         },
         services: {
+          database: true,
           auth: {
             persistence: 'local',
             initialize: {

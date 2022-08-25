@@ -40,7 +40,7 @@
           <v-btn class="primary" @click="signInWithGoogle">Googleアカウントでログイン</v-btn>
         </div>
         <div class="text-center">
-          <a href="./login">教員用ログインはこちら</a>
+          <a href="./login-teacher">教員用ログインはこちら</a>
           <!-- <v-btn class="primary" :disabled="!valid">教員用ログイン</v-btn> -->
         </div>
         <!-- <p class="signUp-border-top text-center mt-6 mb-0 pt-6">

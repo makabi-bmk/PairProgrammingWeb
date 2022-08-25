@@ -3,23 +3,43 @@
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
     <v-form ref="form" v-model="valid">
       <v-card-title class="d-flex justify-center pa-0 mt-6 mb-3"
-        >教員用ログイン</v-card-title
+        >クラスの新規登録</v-card-title
       >
       <v-card-text class="d-flex justify-center flex-column">
         <div class="mx-9">
           <v-text-field
+            v-model="classID"
+            @change="isDuplicate"
             label="クラスID"
+            placeholder="8文字以上の半角英数記号"
+            outlined
+            dense
+            :rules="IDRules"
+          ></v-text-field>
+          <v-text-field
+            v-model="class_name"
+            label="クラスの名前"
+            placeholder="15文字以内"
+            outlined
+            dense
+            :rules="nameRules"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="admin_name"
+            label="管理者名"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
           ></v-text-field>
           <v-text-field
-            label="生徒ID"
-            placeholder="15文字以内"
+            v-model="password"
+            label="パスワード"
+            placeholder="8文字以上の半角英数記号"
             outlined
             dense
-            :rules="nameRules"
+            :rules="pwRules"
           ></v-text-field>
           <!-- <v-text-field
             label="メールアドレス"
@@ -28,13 +48,7 @@
             dense
             :rules="mailRules"
           ></v-text-field> -->
-          <v-text-field
-            label="パスワード"
-            placeholder="8文字以上の半角英数記号"
-            outlined
-            dense
-            :rules="pwRules"
-          ></v-text-field>
+
         </div>
         <div class="text-center">
           <v-btn class="primary" :disabled="!valid">ログイン</v-btn>
@@ -150,13 +164,35 @@ export default {
   data() {
     return {
       valid: false,
+      IDRules: [
+        (v) => !!v || "mail is required",
+        // this.$fire.database.ref(this.classID).on('value', (snapshot) => {
+        //     console.log(snapshot.val());
+        //     return snapshot.val() == null || 'このIDは既に使われています'
+        // })
+        // // v => this.isDuplicate() || 'そのIDは既に使われています'
+      ],
       mailRules: [
         (v) => !!v || "mail is required",
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
       pwRules: [(v) => !!v || "password is required"],
     };
   },
+//   mounted() {
+//     this.classID
+//     this.$fire.database.ref()
+//   },
   methods: {
+    isDuplicate() {
+        if(this.classID != '') {
+            this.$fire.database.ref(this.classID).on('value', (snapshot) => {
+                console.log(snapshot.val());
+                if (snapshot.val() != null) {
+                    alert('そのIDは既に使われていてりようできません')
+                }
+            })
+        }
+    },
     validate() {
       this.$refs.form.validate();
     },
