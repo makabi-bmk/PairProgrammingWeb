@@ -8,19 +8,20 @@
       <v-card-text class="d-flex justify-center flex-column">
         <div class="mx-9">
           <v-text-field
+            v-model="classID"
             label="クラスID"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
           ></v-text-field>
-          <v-text-field
+          <!-- <v-text-field
             label="生徒ID"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
-          ></v-text-field>
+          ></v-text-field> -->
           <!-- <v-text-field
             label="メールアドレス"
             placeholder="mail@example.com"
@@ -37,7 +38,7 @@
           ></v-text-field>
         </div>
         <div class="text-center">
-          <v-btn class="primary" :disabled="!valid">ログイン</v-btn>
+          <v-btn class="primary" :disabled="!valid" @click="login">ログイン</v-btn>
         </div>
         <div class="text-center">
           <a href="./signup">新規登録はこちら</a>
@@ -157,6 +158,21 @@ export default {
     };
   },
   methods: {
+    login() {
+      this.$fire.database.ref(this.classID + '/password').on('value', (snapshot) => {
+                console.log(snapshot.val());
+                if (snapshot.val() == this.password) {
+                  this.$loginMessage = 'ログインに成功しました'
+                  console.log("login success")
+                } else {
+                  this.$loginMessage = 'ログインに失敗しました'
+                  console.log("login failured")
+                }
+            })
+            // const modal = document.querySelector('.window');
+            // disableBodyScroll(modal);
+            // this.modalFlag = true
+    },
     validate() {
       this.$refs.form.validate();
     },
