@@ -30,6 +30,7 @@
             :rules="mailRules"
           ></v-text-field> -->
           <v-text-field
+            v-model="password"
             label="パスワード"
             placeholder="8文字以上の半角英数記号"
             outlined
@@ -71,6 +72,10 @@
       </v-card-text>
     </v-form>
   </v-card>
+  <Modal v-if="modalFlag">
+      <div>追加しました</div>
+      <a href="./login-teacher">ログイン画面に戻る</a>
+  </Modal>
   </div>
 
   <!-- <div>
@@ -147,10 +152,19 @@
 </template>
  
 <script>
+import Modal from '~/components/Modal.vue'
+import {
+    disableBodyScroll
+} from 'body-scroll-lock'
+
 export default {
+  compotents: {
+    Modal
+  },
   data() {
     return {
       valid: false,
+      modalFlag: false,
       mailRules: [
         (v) => !!v || "mail is required",
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
@@ -169,9 +183,9 @@ export default {
                   console.log("login failured")
                 }
             })
-            // const modal = document.querySelector('.window');
-            // disableBodyScroll(modal);
-            // this.modalFlag = true
+            const modal = document.querySelector('.window');
+            disableBodyScroll(modal);
+            this.modalFlag = true
     },
     validate() {
       this.$refs.form.validate();

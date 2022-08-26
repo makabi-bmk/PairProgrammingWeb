@@ -87,7 +87,7 @@
   <Modal v-if="modalFlag">
       <div>追加しました</div>
       <a href="./login-teacher">ログイン画面に戻る</a>
-    </Modal>
+  </Modal>
   </div>
 
   <!-- <div>
