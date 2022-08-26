@@ -51,10 +51,10 @@
 
         </div>
         <div class="text-center">
-          <v-btn class="primary" :disabled="!valid">ログイン</v-btn>
+          <v-btn class="primary" :disabled="!valid" @click="makeAccount">新規登録</v-btn>
         </div>
         <div class="text-center">
-          <a href="./signup">新規登録はこちら</a>
+          <a href="./login">ログイン画面に戻る</a>
           <!-- <v-btn class="primary" :disabled="!valid">教員用ログイン</v-btn> -->
         </div>
         <!-- <p class="signUp-border-top text-center mt-6 mb-0 pt-6">
@@ -84,6 +84,10 @@
       </v-card-text>
     </v-form>
   </v-card>
+  <Modal v-if="modalFlag">
+      <div>追加しました</div>
+      <a href="./login-teacher">ログイン画面に戻る</a>
+    </Modal>
   </div>
 
   <!-- <div>
@@ -160,10 +164,20 @@
 </template>
  
 <script>
+// import Vue from 'vue'
+import Modal from '~/components/Modal.vue'
+import {
+    disableBodyScroll
+} from 'body-scroll-lock'
+
 export default {
+  compotents: {
+    Modal
+  },
   data() {
     return {
       valid: false,
+      modalFlag: false,
       IDRules: [
         (v) => !!v || "mail is required",
         // this.$fire.database.ref(this.classID).on('value', (snapshot) => {
@@ -178,17 +192,13 @@ export default {
       pwRules: [(v) => !!v || "password is required"],
     };
   },
-//   mounted() {
-//     this.classID
-//     this.$fire.database.ref()
-//   },
   methods: {
     isDuplicate() {
         if(this.classID != '') {
             this.$fire.database.ref(this.classID).on('value', (snapshot) => {
                 console.log(snapshot.val());
                 if (snapshot.val() != null) {
-                    alert('そのIDは既に使われていてりようできません')
+                    alert('そのIDは既に使われていて利用できません')
                 }
             })
         }
@@ -196,15 +206,18 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-    submitTwitte() {
-      // ツイッターログインの処理
-    },
-    submitGoogle() {
-      // グーグルログインの処理
-    },
-    forgetPw() {
-      // パスワードを忘れた時の処理
-    },
+    makeAccount() {
+        this.$fire.database.ref(this.classID).set({
+            class_name: this.class_name,
+            admin_name: this.admin_name,
+            password: this.password
+        });
+        const modal = document.querySelector('.window');
+        disableBodyScroll(modal);
+
+        this.modalFlag = true
+        // alert("追加しました");
+    }
   },
 };
 </script>
