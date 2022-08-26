@@ -1,5 +1,6 @@
 export const state = () => ({
-    authUser: null
+    authUser: null,
+    classID: ''
   })
   
   export const getters = {
@@ -73,5 +74,8 @@ export const state = () => ({
         photoURL: claims.picture,
         isAdmin: claims.admin
       }
+    },
+    SET_CLASS(state, classID) {
+      state.classID = classID
     }
   }

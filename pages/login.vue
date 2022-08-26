@@ -146,31 +146,6 @@
 </template>
  
 <script>
-// export default {
-//   data() {
-//     return {
-//       valid: false,
-//       mailRules: [
-//         (v) => !!v || "mail is required",
-//         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
-//       pwRules: [(v) => !!v || "password is required"],
-//     };
-//   },
-//   methods: {
-//     validate() {
-//       this.$refs.form.validate();
-//     },
-//     submitTwitte() {
-//       // ツイッターログインの処理
-//     },
-//     submitGoogle() {
-//       // グーグルログインの処理
-//     },
-//     forgetPw() {
-//       // パスワードを忘れた時の処理
-//     },
-//   },
-// };
   export default {
     layout: "default",
     name: "login",

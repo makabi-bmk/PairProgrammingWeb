@@ -157,6 +157,7 @@ import {
     disableBodyScroll
 } from 'body-scroll-lock'
 import { setTimeout } from 'timers';
+// import store from '~/store/index'
 
 export default {
   compotents: {
@@ -183,6 +184,10 @@ export default {
                 if (snapshot.val() == this.password) {
                   this.loginMessage = 'ログインに成功しました'
                   console.log("login success")
+
+                  this.$store.commit('SET_CLASS', this.classID)
+                  console.log(this.$store.state.classID)
+                  // this.$store.state.classID
 
                   this.modalFlag = true
                   setTimeout(this.goToHome, 3000)
