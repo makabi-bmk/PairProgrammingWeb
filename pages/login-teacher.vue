@@ -156,6 +156,7 @@ import Modal from '~/components/Modal.vue'
 import {
     disableBodyScroll
 } from 'body-scroll-lock'
+import { setTimeout } from 'timers';
 
 export default {
   compotents: {
@@ -184,27 +185,24 @@ export default {
                   console.log("login success")
 
                   this.modalFlag = true
+                  setTimeout(this.goToHome, 3000)
                 } else {
                   this.loginMessage = 'ログインに失敗しました'
                   console.log("login failured")
 
                   this.modalFlag = true
+                  setTimeout(this.closeModal, 3000)
                 }
             })
-            
-            
+    },
+    goToHome() {
+      this.$router.push("/home-teacher")
+    },
+    closeModal() {
+      this.modalFlag = false
     },
     validate() {
       this.$refs.form.validate();
-    },
-    submitTwitte() {
-      // ツイッターログインの処理
-    },
-    submitGoogle() {
-      // グーグルログインの処理
-    },
-    forgetPw() {
-      // パスワードを忘れた時の処理
     },
   },
 };
