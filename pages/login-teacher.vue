@@ -73,8 +73,8 @@
     </v-form>
   </v-card>
   <Modal v-if="modalFlag">
-      <div>追加しました</div>
-      <a href="./login-teacher">ログイン画面に戻る</a>
+      <div>{{loginMessage}}</div>
+      <!-- <a href="./login-teacher">閉じる</a> -->
   </Modal>
   </div>
 
@@ -165,6 +165,7 @@ export default {
     return {
       valid: false,
       modalFlag: false,
+      loginMessage: 'test',
       mailRules: [
         (v) => !!v || "mail is required",
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
@@ -174,18 +175,24 @@ export default {
   methods: {
     login() {
       this.$fire.database.ref(this.classID + '/password').on('value', (snapshot) => {
+                const modal = document.querySelector('.window');
+                disableBodyScroll(modal);
+
                 console.log(snapshot.val());
                 if (snapshot.val() == this.password) {
-                  this.$loginMessage = 'ログインに成功しました'
+                  this.loginMessage = 'ログインに成功しました'
                   console.log("login success")
+
+                  this.modalFlag = true
                 } else {
-                  this.$loginMessage = 'ログインに失敗しました'
+                  this.loginMessage = 'ログインに失敗しました'
                   console.log("login failured")
+
+                  this.modalFlag = true
                 }
             })
-            const modal = document.querySelector('.window');
-            disableBodyScroll(modal);
-            // this.modalFlag = true
+            
+            
     },
     validate() {
       this.$refs.form.validate();
