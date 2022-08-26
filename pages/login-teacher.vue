@@ -78,6 +78,11 @@
   </Modal>
   </div>
 
+  <Modal v-if="modalFlag">
+      <div>{{loginMessage}}</div>
+      <a href="./login-teacher">ログイン画面に戻る</a>
+    </Modal>
+
   <!-- <div>
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
     <v-form ref="form" v-model="valid">
@@ -190,15 +195,22 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-    submitTwitte() {
-      // ツイッターログインの処理
-    },
-    submitGoogle() {
-      // グーグルログインの処理
-    },
-    forgetPw() {
-      // パスワードを忘れた時の処理
-    },
+    login() {
+      this.$fire.database.ref(this.classID + '/password').on('value', (snapshot) => {
+                console.log(snapshot.val());
+                if (snapshot.val() == this.password) {
+                  this.$loginMessage = 'ログインに成功しました'
+                  console.log("login success")
+                } else {
+                  this.$loginMessage = 'ログインに失敗しました'
+                  console.log("login failured")
+                }
+            })
+
+            const modal = document.querySelector('.window');
+            disableBodyScroll(modal);
+            this.modalFlag = true
+    }
   },
 };
 </script>
