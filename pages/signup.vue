@@ -196,7 +196,7 @@ export default {
     isDuplicate() {
         if(this.classID != '') {
             this.$fire.database.ref(this.classID).on('value', (snapshot) => {
-                console.log(snapshot.val());
+                // console.log(snapshot.val());
                 if (snapshot.val() != null) {
                     alert('そのIDは既に使われていて利用できません')
                 }
