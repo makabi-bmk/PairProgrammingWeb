@@ -8,19 +8,20 @@
       <v-card-text class="d-flex justify-center flex-column">
         <div class="mx-9">
           <v-text-field
+            v-model="classID"
             label="クラスID"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
           ></v-text-field>
-          <v-text-field
+          <!-- <v-text-field
             label="生徒ID"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
-          ></v-text-field>
+          ></v-text-field> -->
           <!-- <v-text-field
             label="メールアドレス"
             placeholder="mail@example.com"
@@ -29,6 +30,7 @@
             :rules="mailRules"
           ></v-text-field> -->
           <v-text-field
+            v-model="password"
             label="パスワード"
             placeholder="8文字以上の半角英数記号"
             outlined
@@ -37,7 +39,7 @@
           ></v-text-field>
         </div>
         <div class="text-center">
-          <v-btn class="primary" :disabled="!valid">ログイン</v-btn>
+          <v-btn class="primary" :disabled="!valid" @click="login">ログイン</v-btn>
         </div>
         <div class="text-center">
           <a href="./signup">新規登録はこちら</a>
@@ -71,6 +73,11 @@
     </v-form>
   </v-card>
   </div>
+
+  <Modal v-if="modalFlag">
+      <div>{{loginMessage}}</div>
+      <a href="./login-teacher">ログイン画面に戻る</a>
+    </Modal>
 
   <!-- <div>
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
@@ -146,10 +153,20 @@
 </template>
  
 <script>
+import Modal from '~/components/Modal.vue'
+import {
+    disableBodyScroll
+} from 'body-scroll-lock'
+
 export default {
+  compotents: {
+    Modal
+  },
   data() {
     return {
       valid: false,
+      loginMessage: '',
+      modalFlag: false,
       mailRules: [
         (v) => !!v || "mail is required",
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
@@ -160,15 +177,22 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-    submitTwitte() {
-      // ツイッターログインの処理
-    },
-    submitGoogle() {
-      // グーグルログインの処理
-    },
-    forgetPw() {
-      // パスワードを忘れた時の処理
-    },
+    login() {
+      this.$fire.database.ref(this.classID + '/password').on('value', (snapshot) => {
+                console.log(snapshot.val());
+                if (snapshot.val() == this.password) {
+                  this.$loginMessage = 'ログインに成功しました'
+                  console.log("login success")
+                } else {
+                  this.$loginMessage = 'ログインに失敗しました'
+                  console.log("login failured")
+                }
+            })
+
+            const modal = document.querySelector('.window');
+            disableBodyScroll(modal);
+            this.modalFlag = true
+    }
   },
 };
 </script>
