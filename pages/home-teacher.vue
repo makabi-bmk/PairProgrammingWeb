@@ -78,13 +78,23 @@ export default {
 //   middleware: "auth",
   data() {
     return {
-      classID: 'classID',
+      // classID: this.$store.state.classID,
+      classID: 'class4',
       class_name: 'class_name',
       admin_name: 'admin_name',
       password: 'password',
       User: this.$store.state.authUser,
-      message: this.$store.state.classID
     }
+  },
+  created() {
+    // if (this.classID == '') {
+
+    // }
+    this.$fire.database.ref(this.classID).on('value', (snapshot) => {
+      this.class_name = snapshot.val().class_name
+      this.admin_name = snapshot.val().admin_name
+      this.password   = snapshot.val().password
+    })
   },
   methods: {
     async logout() {
