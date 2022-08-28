@@ -32,6 +32,7 @@
           ></v-text-field><v-btn>変更</v-btn></p> -->
           
           <v-text-field
+            v-model="new_class_name"
             outlined
             label="クラスの名前"
             append-outer-icon="mdi-send"
@@ -39,6 +40,7 @@
           ></v-text-field>
 
           <v-text-field
+            v-model="new_admin_name"
             outlined
             label="管理者名"
             append-outer-icon="mdi-send"
@@ -46,6 +48,7 @@
           ></v-text-field>
 
           <v-text-field
+            v-model="new_password"
             outlined
             label="パスワード"
             append-outer-icon="mdi-send"
@@ -75,7 +78,10 @@ export default {
 //   middleware: "auth",
   data() {
     return {
-      tab: 1,
+      classID: 'classID',
+      class_name: 'class_name',
+      admin_name: 'admin_name',
+      password: 'password',
       User: this.$store.state.authUser,
       message: this.$store.state.classID
     }
@@ -85,13 +91,24 @@ export default {
       await this.$fire.auth.signOut()
     },
     changeClassName() {
-      alert("hoge")
+      this.updateData('class_name', this.new_class_name)
     },
     changeAdminName() {
-
+      this.updateData('admin_name', this.new_admin_name)
     },
     changePassword() {
-      
+      this.updateData('password', this.new_password);
+    },
+    updateData(key, value) {
+
+      var postData = {};
+      postData[key] = value;
+
+      newPostKey = this.$fire.database.ref().child('posts').push().key;
+      var updates = {};
+      updates['/' + classID + '/' + newPostKey] = postData;
+
+      return this.$fire.database.ref().update(updates);
     }
   }
 }
