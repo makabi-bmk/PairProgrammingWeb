@@ -110,15 +110,9 @@ export default {
       this.updateData('password', this.new_password);
     },
     updateData(key, value) {
-
-      var postData = {};
-      postData[key] = value;
-
-      newPostKey = this.$fire.database.ref().child('posts').push().key;
-      var updates = {};
-      updates['/' + classID + '/' + newPostKey] = postData;
-
-      return this.$fire.database.ref().update(updates);
+      this.$fire.database.ref('/' + this.classID + '/' + key).set(
+        value
+      );
     }
   }
 }
