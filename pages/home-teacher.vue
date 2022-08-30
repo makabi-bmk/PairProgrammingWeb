@@ -58,7 +58,28 @@
   </v-tab-item>
 
   <v-tab-item value="tab-2">
-    Tab 2 Content
+    <table>
+    <thead>
+      <tr>
+        <th v-for="(header, index) in headers"
+            v-bind:key="index">
+          {{header}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(book, index) in books"
+          v-bind:key="book.id">
+        <th>{{index + 1}}</th>
+        <td>{{book.id}}</td>
+        <td>{{book.title}}</td>
+        <td>{{book.price.toLocaleString()}}</td>
+        <td>{{book.published}}</td>
+        <td>{{book.isbn}}</td>
+      </tr>
+    </tbody>
+    </table>
+
   </v-tab-item>
   <v-tab-item value="tab-3">
     Tab 3 Content
@@ -80,17 +101,98 @@ import {
 } from 'body-scroll-lock'
 import { setTimeout } from 'timers';
 
+const books = [
+  {
+    id: 101,
+    title: 'Vue.jsでレンダリング',
+    price: 1730,
+    published: '2021-01-01',
+    isbn: '978-4-111111-11-1'
+  },
+  {
+    id: 201,
+    title: 'Vue.js入門',
+    price: 1500,
+    published: '2021-01-15',
+    isbn: '978-4-222222-22-2'
+  },
+  {
+    id: 301,
+    title: 'Bulmaのすすめ',
+    price: 1340,
+    published: '2021-02-01',
+    isbn: '978-4-333333-33-3'
+  },
+  {
+    id: 401,
+    title: 'Nuxt.js入門',
+    price: 2400,
+    published: '2021-02-15',
+    isbn: '978-4-444444-44-4'
+  },
+  {
+    id: 501,
+    title: 'JavaScript入門',
+    price: 1800,
+    published: '2021-03-01',
+    isbn: '978-4-555555-55-5'
+  },
+  {
+    id: 601,
+    title: '実践 JavaScript',
+    price: 1590,
+    published: '2021-03-15',
+    isbn: '978-4-666666-66-6'
+  },
+  {
+    id: 701,
+    title: 'CSS3リファレンス',
+    price: 2680,
+    published: '2021-04-01',
+    isbn: '978-4-777777-77-7'
+  },
+  {
+    id: 801,
+    title: 'HTML5リファレンス',
+    price: 1470,
+    published: '2021-04-15',
+    isbn: '978-4-888888-88-8'
+  },
+  {
+    id: 901,
+    title: 'Vue.js 3.x 基礎',
+    price: 2230,
+    published: '2021-05-01',
+    isbn: '978-4-999999-99-9'
+  }
+];
+ 
+// テーブルのヘッダー配列
+const headers = [
+  'No',
+  'ID',
+  'タイトル',
+  '価格',
+  '発行日',
+  'ISBN'
+];
+
 export default {
   layout: "default",
   name: "home",
 //   middleware: "auth",
   data() {
     return {
-      classID: this.$store.state.classID,
+      //TODO: ここあとでコメントアウト外す
+      // classID: this.$store.state.classID,
+      classID: 'class4',
       class_name: 'class_name',
       admin_name: 'admin_name',
       password: 'password',
       modalFlag: false,
+
+      books: books,
+      headers: headers,
     }
   },
   created() {
