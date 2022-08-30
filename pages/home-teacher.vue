@@ -4,7 +4,7 @@
 <v-tabs>
   <v-tab href="#tab-1">登録情報の編集</v-tab>
   <v-tab href="#tab-2">生徒情報の管理</v-tab>
-  <!-- <v-tab href="#tab-3">Three</v-tab> -->
+  <v-tab href="#tab-3">過去の授業ログ</v-tab>
 
   <v-tab-item value="tab-1">
 
@@ -64,9 +64,9 @@
   <v-tab-item value="tab-2">
     Tab 2 Content
   </v-tab-item>
-  <!-- <v-tab-item value="tab-3">
+  <v-tab-item value="tab-3">
     Tab 3 Content
-  </v-tab-item> -->
+  </v-tab-item>
 </v-tabs>
 
 <Modal v-if="modalFlag">
