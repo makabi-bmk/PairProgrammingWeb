@@ -68,10 +68,22 @@
     Tab 3 Content
   </v-tab-item> -->
 </v-tabs>
+
+<Modal v-if="modalFlag">
+      <div>{{consoleMessage}}</div>
+      <!-- <a href="./login-teacher">閉じる</a> -->
+  </Modal>
+
   </div>
 </template>
 
 <script>
+import Modal from '~/components/Modal.vue'
+import {
+    disableBodyScroll
+} from 'body-scroll-lock'
+import { setTimeout } from 'timers';
+
 export default {
   layout: "default",
   name: "home",
@@ -84,6 +96,7 @@ export default {
       admin_name: 'admin_name',
       password: 'password',
       User: this.$store.state.authUser,
+      modalFlag: false,
     }
   },
   created() {
@@ -110,10 +123,18 @@ export default {
       this.updateData('password', this.new_password);
     },
     updateData(key, value) {
-      this.$fire.database.ref('/' + this.classID + '/' + key).set(
-        value
-      );
-    }
+      this.$fire.database.ref('/' + this.classID + '/' + key).set(value);
+
+      const modal = document.querySelector('.window');
+      disableBodyScroll(modal);
+      this.consoleMessage = '変更しました';
+      this.modalFlag = true;
+      setTimeout(this.closeModal, 3000);
+    },
+    closeModal() {
+      console.log("yobarerooooooooooo");
+      this.modalFlag = false
+    },
   }
 }
 </script>
