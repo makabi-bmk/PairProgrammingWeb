@@ -7,16 +7,12 @@
   <v-tab href="#tab-3">過去の授業ログ</v-tab>
 
   <v-tab-item value="tab-1">
-
   
   <h2>登録情報</h2>
-        <p>クラスID：{{class_name}}</p>
+        <p>クラスID：{{classID}}</p>
         <p>クラス名：{{class_name}}</p>
         <p>管理者名： {{admin_name}}</p>
         <p>パスワード：***</p>
-
-      <button @click="logout">Logout</button>
-    <p>ID = {{ message }}</p>
 
   <h2>登録情報の変更</h2>
         <v-form ref="form" v-model="valid">
@@ -90,24 +86,28 @@ export default {
 //   middleware: "auth",
   data() {
     return {
-      // classID: this.$store.state.classID,
-      classID: 'class4',
+      classID: this.$store.state.classID,
       class_name: 'class_name',
       admin_name: 'admin_name',
       password: 'password',
-      User: this.$store.state.authUser,
       modalFlag: false,
     }
   },
   created() {
-    // if (this.classID == '') {
-
-    // }
-    this.$fire.database.ref(this.classID).on('value', (snapshot) => {
-      this.class_name = snapshot.val().class_name
-      this.admin_name = snapshot.val().admin_name
-      this.password   = snapshot.val().password
-    })
+    console.log(this.$store.state.classID);
+    if (this.classID == '') {
+      const modal = document.querySelector('.window');
+      disableBodyScroll(modal);
+      this.consoleMessage = '再度ログインしてください';
+      this.modalFlag = true;
+      setTimeout(this.goToLogin, 3000);
+    } else {
+      this.$fire.database.ref(this.classID).on('value', (snapshot) => {
+        this.class_name = snapshot.val().class_name
+        this.admin_name = snapshot.val().admin_name
+        this.password   = snapshot.val().password
+      });
+    }
   },
   methods: {
     async logout() {
@@ -134,6 +134,9 @@ export default {
     closeModal() {
       console.log("yobarerooooooooooo");
       this.modalFlag = false
+    },
+    goToLogin() {
+      this.$router.push("login-teacher")
     },
   }
 }
