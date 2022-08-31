@@ -134,18 +134,20 @@ import {
 } from 'body-scroll-lock'
 import { setTimeout } from 'timers';
 
-const students = [
-  {
-    studentID: 'nojiko0101@gmail.com',
-    student_name: '田中角栄',
-    pair_num: 1730,
-  },
-  {
-    studentID: 'nojiko0101@gmail.com',
-    student_name: '佐藤栄作',
-    pair_num: 1730,
-  },
-];
+// const students = [
+//   {
+//     studentID: 'nojiko0101@gmail.com',
+//     student_name: '田中角栄',
+//     pair_num: 1730,
+//   },
+//   {
+//     studentID: 'nojiko0101@gmail.com',
+//     student_name: '佐藤栄作',
+//     pair_num: 1730,
+//   },
+// ];
+
+var students = [];
  
 // テーブルのヘッダー配列
 const headers = [
@@ -195,8 +197,16 @@ export default {
       // console.log(snapshot.val());
       for (var user in snapshot.val()) {
         if (typeof snapshot.val()[user] != 'string') {
-          var key = (snapshot.val())[user]["student_name"];
-          console.log(key);
+          var mail_address  = user + '@gmail.com';
+          var student_name  = (snapshot.val())[user]["student_name"];
+          var pair_num      = (snapshot.val())[user]["pair_num"];
+          students.push({
+            studentID: mail_address,
+            student_name: student_name,
+            pair_num: pair_num
+          });
+          // var key = (snapshot.val())[user]["student_name"];
+          console.log(students);
         }
       }
     });
