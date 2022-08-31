@@ -74,7 +74,8 @@
       <tr v-for="(student, index) in students"
           v-bind:key="student.id">
         <!-- <th>{{index + 1}}</th> -->
-        <td>{{student.studentID}}</td>
+        <td><v-btn v-on:click="deleteStudent(student.studentID)">削除</v-btn></td>
+        <td>{{student.studentID}}@gmail.com</td>
         <td>{{student.student_name}}</td>
         <td>{{student.pair_num}}</td>
       </tr>
@@ -138,7 +139,7 @@ var students = [];
  
 // テーブルのヘッダー配列
 const headers = [
-  // 'No',
+  ' ',
   'メールアドレス',
   '生徒名',
   'ペア番号',
@@ -164,7 +165,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.classID);
+    // console.log(this.$store.state.classID);
     if (this.classID == '') {
       const modal = document.querySelector('.window');
       disableBodyScroll(modal);
@@ -182,9 +183,10 @@ export default {
     this.$fire.database.ref(this.classID + '/students').on('value', (snapshot) => {
       // console.log(snapshot.val());
       students.splice(0);
+      this.member_num = 0;
       for (var user in snapshot.val()) {
         if (typeof snapshot.val()[user] != 'string') {
-          var mail_address  = user + '@gmail.com';
+          var mail_address  = user;
           var student_name  = (snapshot.val())[user]["student_name"];
           var pair_num      = (snapshot.val())[user]["pair_num"];
           students.push({
@@ -192,9 +194,11 @@ export default {
             student_name: student_name,
             pair_num: pair_num
           });
-          // var key = (snapshot.val())[user]["student_name"];
-          console.log(students);
           this.member_num++;
+        } else {
+          console.log(user);
+          console.log('/' + this.classID + '/students/' + user);
+          this.$fire.database.ref('/' + this.classID + '/students/' + user).remove();
         }
       }
       students.sort(this.compare);
@@ -224,7 +228,7 @@ export default {
       setTimeout(this.closeModal, 1500);
     },
     closeModal() {
-      console.log("yobarerooooooooooo");
+      // console.log("yobarerooooooooooo");
       this.modalFlag = false
     },
     goToLogin() {
@@ -249,7 +253,10 @@ export default {
         r = 1;
       }
       return r;
-    }
+    },
+    deleteStudent(studentID) {
+      this.$fire.database.ref('/' + this.classID + '/students/' + studentID).remove();
+    },
   }
 }
 </script>
