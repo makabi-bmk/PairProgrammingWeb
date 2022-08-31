@@ -207,6 +207,7 @@ export default {
           });
           // var key = (snapshot.val())[user]["student_name"];
           console.log(students);
+          this.member_num++;
         }
       }
     });
