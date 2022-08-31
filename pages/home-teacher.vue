@@ -194,10 +194,10 @@ export default {
     this.$fire.database.ref(this.classID + '/students').on('value', (snapshot) => {
       // console.log(snapshot.val());
       for (var user in snapshot.val()) {
-        // console.log(user);
-
-        var key = ((snapshot.val())[user]["student_name"]).keys();
-        console.log(key);
+        if (typeof snapshot.val()[user] != 'string') {
+          var key = (snapshot.val())[user]["student_name"];
+          console.log(key);
+        }
       }
     });
   },
