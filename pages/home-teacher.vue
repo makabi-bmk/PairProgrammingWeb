@@ -192,9 +192,9 @@ export default {
       });
     }
 
-    // // var students = {};
     this.$fire.database.ref(this.classID + '/students').on('value', (snapshot) => {
       // console.log(snapshot.val());
+      students.splice(0);
       for (var user in snapshot.val()) {
         if (typeof snapshot.val()[user] != 'string') {
           var mail_address  = user + '@gmail.com';
