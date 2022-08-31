@@ -197,7 +197,9 @@ export default {
           this.member_num++;
         }
       }
+      students.sort(this.compare);
     });
+    
   },
   methods: {
     async logout() {
@@ -239,6 +241,15 @@ export default {
       this.modalFlag = true;
       setTimeout(this.closeModal, 1500);
     },
+    compare(a, b) {
+      var r = 0;
+      if (a.pair_num < b.pair_num) {
+        r = -1;
+      } else if(a.pair_num > b.pair_num) {
+        r = 1;
+      }
+      return r;
+    }
   }
 }
 </script>
