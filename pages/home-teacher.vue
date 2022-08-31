@@ -83,46 +83,37 @@
 
 
   <h2>生徒の追加</h2>
-        <v-form ref="form" v-model="valid">
-        
-        <div class="mx-9">
-          <!-- <p><v-text-field
-            v-model="classID"
-            label="クラスID"
+  <v-form ref="form" v-model="valid">
+          <v-text-field
+            v-model="new_mail"
+            label="メールアドレス"
+            placeholder="mail@example.com"
+            suffix="@gmail.com"
+            outlined
+            dense
+            :rules="mailRules"
+          ></v-text-field>
+          <v-text-field
+            v-model="new_student_name"
+            label="生徒名"
+            placeholder="15文字以内"
+            outlined
+            dense
+            :rules="nameRules"
+          ></v-text-field>
+          <v-text-field
+            v-model="new_pair_num"
+            label="ペア番号"
             placeholder="8文字以上の半角英数記号"
             outlined
             dense
-            :rules="IDRules"
-          ></v-text-field><v-btn>変更</v-btn></p> -->
-          
-          <v-text-field
-            v-model="new_class_name"
-            outlined
-            label="クラスの名前"
-            append-outer-icon="mdi-send"
-            @click:append-outer="changeClassName"
           ></v-text-field>
-
-          <v-text-field
-            v-model="new_admin_name"
-            outlined
-            label="管理者名"
-            append-outer-icon="mdi-send"
-            @click:append-outer="changeAdminName"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="new_password"
-            outlined
-            label="パスワード"
-            append-outer-icon="mdi-send"
-            @click:append-outer="changePassword"
-          ></v-text-field>
-
+        <div class="text-center">
+          <v-btn class="primary" :disabled="!valid" @click="addStudent">新規登録</v-btn>
         </div>
-
-    </v-form>
+      </v-form>
   </v-tab-item>
+
   <v-tab-item value="tab-3">
     Tab 3 Content
   </v-tab-item>
@@ -168,20 +159,20 @@ const headers = [
 export default {
   layout: "default",
   name: "home",
-  member_num: "0",
 //   middleware: "auth",
   data() {
     return {
       //TODO: ここあとでコメントアウト外す
       // classID: this.$store.state.classID,
+      valid: false,
       classID: 'class4',
       class_name: 'class_name',
       admin_name: 'admin_name',
       password: 'password',
       modalFlag: false,
-
       students: students,
       headers: headers,
+      member_num: 0,
     }
   },
   created() {
@@ -220,7 +211,7 @@ export default {
       disableBodyScroll(modal);
       this.consoleMessage = '変更しました';
       this.modalFlag = true;
-      setTimeout(this.closeModal, 3000);
+      setTimeout(this.closeModal, 1500);
     },
     closeModal() {
       console.log("yobarerooooooooooo");
@@ -228,6 +219,16 @@ export default {
     },
     goToLogin() {
       this.$router.push("login-teacher")
+    },
+    addStudent() {
+      this.$fire.database.ref('/' + this.classID + '/students/').set(this.new_mail);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').set(this.new_student_name);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').set(this.new_pair_num);
+      const modal = document.querySelector('.window');
+      disableBodyScroll(modal);
+      this.consoleMessage = '生徒を追加しました';
+      this.modalFlag = true;
+      setTimeout(this.closeModal, 1500);
     },
   }
 }

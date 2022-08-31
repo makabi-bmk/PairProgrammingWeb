@@ -190,13 +190,13 @@ export default {
                   // this.$store.state.classID
 
                   this.modalFlag = true
-                  setTimeout(this.goToHome, 3000)
+                  setTimeout(this.goToHome, 1500)
                 } else {
                   this.loginMessage = 'ログインに失敗しました'
                   console.log("login failured")
 
                   this.modalFlag = true
-                  setTimeout(this.closeModal, 3000)
+                  setTimeout(this.closeModal, 1500)
                 }
             })
     },
