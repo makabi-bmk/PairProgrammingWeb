@@ -200,7 +200,7 @@ export default {
                 if (snapshot.val() != null) {
                     alert('そのIDは既に使われていて利用できません')
                 }
-            })
+            });
         }
     },
     validate() {

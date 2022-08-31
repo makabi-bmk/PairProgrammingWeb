@@ -235,15 +235,29 @@ export default {
       this.$router.push("login-teacher")
     },
     addStudent() {
-      this.$fire.database.ref('/' + this.classID + '/students/').push(this.new_mail);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').set(this.new_student_name);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').set(this.new_pair_num);
-      
-      const modal = document.querySelector('.window');
-      disableBodyScroll(modal);
-      this.consoleMessage = '生徒を追加しました';
-      this.modalFlag = true;
-      setTimeout(this.closeModal, 1500);
+
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail).on('value', (snapshot) => {
+                // console.log(snapshot.val());
+                if (snapshot.val() != null) {
+                  const modal = document.querySelector('.window');
+                  disableBodyScroll(modal);
+                  this.consoleMessage = 'そのアドレスは既に使われていて使用できません';
+                  this.modalFlag = true;
+                  setTimeout(this.closeModal, 1500);
+                } else {
+                  this.$fire.database.ref('/' + this.classID + '/students/').push(this.new_mail);
+                  this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').set(this.new_student_name);
+                  this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').set(this.new_pair_num);
+                  
+                  const modal = document.querySelector('.window');
+                  disableBodyScroll(modal);
+                  this.consoleMessage = '生徒を追加しました';
+                  this.modalFlag = true;
+                  setTimeout(this.closeModal, 1500);
+                }
+      });
+
+
     },
     compare(a, b) {
       var r = 0;
