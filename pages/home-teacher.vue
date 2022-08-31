@@ -134,19 +134,6 @@ import {
 } from 'body-scroll-lock'
 import { setTimeout } from 'timers';
 
-// const students = [
-//   {
-//     studentID: 'nojiko0101@gmail.com',
-//     student_name: '田中角栄',
-//     pair_num: 1730,
-//   },
-//   {
-//     studentID: 'nojiko0101@gmail.com',
-//     student_name: '佐藤栄作',
-//     pair_num: 1730,
-//   },
-// ];
-
 var students = [];
  
 // テーブルのヘッダー配列
