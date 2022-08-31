@@ -221,9 +221,10 @@ export default {
       this.$router.push("login-teacher")
     },
     addStudent() {
-      this.$fire.database.ref('/' + this.classID + '/students/').set(this.new_mail);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').set(this.new_student_name);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').set(this.new_pair_num);
+      this.$fire.database.ref('/' + this.classID + '/students/').push(this.new_mail);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').push(this.new_student_name);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').push(this.new_pair_num);
+      
       const modal = document.querySelector('.window');
       disableBodyScroll(modal);
       this.consoleMessage = '生徒を追加しました';
