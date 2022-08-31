@@ -133,7 +133,6 @@ import {
     disableBodyScroll
 } from 'body-scroll-lock'
 import { setTimeout } from 'timers';
-import { getMaxListeners } from 'process';
 
 const students = [
   {
@@ -185,11 +184,22 @@ export default {
       setTimeout(this.goToLogin, 3000);
     } else {
       this.$fire.database.ref(this.classID).on('value', (snapshot) => {
-        this.class_name = snapshot.val().class_name
-        this.admin_name = snapshot.val().admin_name
-        this.password   = snapshot.val().password
+        this.class_name = snapshot.val().class_name;
+        this.admin_name = snapshot.val().admin_name;
+        this.password   = snapshot.val().password;
       });
     }
+
+    // // var students = {};
+    this.$fire.database.ref(this.classID + '/students').on('value', (snapshot) => {
+      // console.log(snapshot.val());
+      for (var user in snapshot.val()) {
+        // console.log(user);
+
+        var key = ((snapshot.val())[user]["student_name"]).keys();
+        console.log(key);
+      }
+    });
   },
   methods: {
     async logout() {
@@ -222,8 +232,8 @@ export default {
     },
     addStudent() {
       this.$fire.database.ref('/' + this.classID + '/students/').push(this.new_mail);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').push(this.new_student_name);
-      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').push(this.new_pair_num);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/student_name/').set(this.new_student_name);
+      this.$fire.database.ref('/' + this.classID + '/students/' + this.new_mail + '/pair_num/').set(this.new_pair_num);
       
       const modal = document.querySelector('.window');
       disableBodyScroll(modal);
