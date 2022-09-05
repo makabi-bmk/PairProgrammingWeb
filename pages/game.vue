@@ -26,15 +26,6 @@
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
 
-var cells =  [
-	[0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-	[0, 0,-1, 1, 0, 0],
-	[0, 0, 1,-1, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-];
-
 export default {
     data() {
         return {

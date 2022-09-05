@@ -1,39 +1,55 @@
 <template>
     <div>
-    <p>mappppp</p>
-    <table border="1" cellspacing="0">
-        <tr v-for="cell in cells">
-            <td v-for="i in cell" class="cell" v-on:click="clicked()">
-                <span v-if="i===1">&#x26AB;</span>
-                <span v-if="i===-1">&#x26AA;</span>
-                <span v-if="i===0"></span>
-            </td>
-        </tr>
-    </table>
-</div>
+        <p>mappppp</p>
+        <table cellspacing="0">
+            <tr v-for="cell in cells">
+                <td v-for="i in cell" class="cell" v-on:click="clicked()">
+                    <img v-if="i===0" src="../static/map/0.png" />
+                    <img v-if="i===1" src="../static/map/1.png" />
+                    <img v-if="i===2" src="../static/map/2.png" />
+                    <img v-if="i===3" src="../static/map/3.png" />
+                </td>
+            </tr>
+        </table>
+    </div>
 </template>
     
-<style scoped>
-    /* CSSを記述 */
+<style>
+img {
+    height: 60px;
+    padding: 0px;
+    margin: 0px;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+tr {
+    padding: 0px;
+    margin: 0px;
+    /* height: 100px; */
+}
+td {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 0px;
+}
+table {
+    padding: 0px;
+    margin: 0px;
+}
 </style>
     
 <script>
-var cells =  [
-	[0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-	[0, 0,-1, 1, 0, 0],
-	[0, 0, 1,-1, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0],
-];
 export default {
     data() {
         return {
             cells :  [
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0,-1, 1, 0, 0],
-                [0, 0, 1,-1, 0, 0],
+                [0, 0, 0, 3, 0, 0],
+                [0, 1, 0, 0, 0, 0],
+                [0, 0, 2, 1, 0, 0],
+                [0, 0, 1, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0],
             ]
