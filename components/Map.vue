@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>mappppp</p>
         <table cellspacing="0">
             <tr v-for="cell in cells">
                 <td v-for="i in cell" class="cell" v-on:click="clicked()">
@@ -17,7 +16,7 @@
     
 <style>
 img {
-    height: 60px;
+    height: 70px;
     padding: 0px;
     margin: 0px;
 }

@@ -18,9 +18,26 @@
       </div>
     </article>
   </section>
-  <Map></Map>
+
+  <!-- <div class="map"> -->
+    <img class="map view" src="../static/road.png" />
+  <!-- </div> -->
+  <!-- <div class="map"> -->
+    <Map class="map"></Map>
+  <!-- </div> -->
+  
 </div>
 </template>
+
+<style>
+.map {
+  display: inline-block;
+  padding-right: 50px;
+}
+.view {
+  height: 420px;
+}
+</style>
 
 <script>
 import io from 'socket.io-client';
