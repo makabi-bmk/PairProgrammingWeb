@@ -1,4 +1,5 @@
 <template>
+  <div>
   <section class="section">
     <div class="field">
       <div class="control">
@@ -17,41 +18,55 @@
       </div>
     </article>
   </section>
+  <Map></Map>
+</div>
 </template>
 
 <script>
-import io from 'socket.io-client'
+import io from 'socket.io-client';
+import Map from '~/components/Map.vue';
+
+var cells =  [
+	[0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0],
+	[0, 0,-1, 1, 0, 0],
+	[0, 0, 1,-1, 0, 0],
+	[0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0],
+];
 
 export default {
-  data() {
-    return {
-      msg: '',
-      msgs: [],
-      socket: ''
-    }
-  },
-  mounted() {
-    this.socket = io('http://localhost:3001')
-    this.socket.on('new-msg', msg => {
-      console.log(msg)
-      this.msgs.push(msg)
-    })
-  },
-  methods: {
-    sendMessage() {
-      this.msg = this.msg.trim()
-      if (this.msg) {
-        const message = {
-          name: this.socket.id,
-          text: this.msg,
+    data() {
+        return {
+            msg: "",
+            msgs: [],
+            socket: "",
+
+        };
+    },
+    mounted() {
+        this.socket = io("http://localhost:3001");
+        this.socket.on("new-msg", msg => {
+            console.log(msg);
+            this.msgs.push(msg);
+        });
+    },
+    methods: {
+        sendMessage() {
+            this.msg = this.msg.trim();
+            if (this.msg) {
+                const message = {
+                    name: this.socket.id,
+                    text: this.msg,
+                };
+                // イベント元はブロードキャストを受けないので自分でmessageを追加する
+                this.msgs.push(message);
+                // send-msgイベントでmessageをサーバーサイドに投げる
+                this.socket.emit("send-msg", message);
+                this.msg = "";
+            }
         }
-        // イベント元はブロードキャストを受けないので自分でmessageを追加する
-        this.msgs.push(message)
-        // send-msgイベントでmessageをサーバーサイドに投げる
-        this.socket.emit('send-msg', message)
-        this.msg = ''
-      }
-    }
-  }
+    },
+    components: { Map }
 }
 </script>
