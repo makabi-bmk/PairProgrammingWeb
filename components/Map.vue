@@ -8,6 +8,7 @@
                     <img v-if="i===1" src="../static/map/1.png" />
                     <img v-if="i===2" src="../static/map/2.png" />
                     <img v-if="i===3" src="../static/map/3.png" />
+                    <img v-if="i===4" src="../static/map/hero.png" />
                 </td>
             </tr>
         </table>
@@ -46,7 +47,7 @@ export default {
     data() {
         return {
             cells :  [
-                [0, 0, 0, 3, 0, 0],
+                [4, 0, 0, 3, 0, 0],
                 [0, 1, 0, 0, 0, 0],
                 [0, 0, 2, 1, 0, 0],
                 [0, 0, 1, 0, 0, 0],
