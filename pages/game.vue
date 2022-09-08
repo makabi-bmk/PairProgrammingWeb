@@ -173,8 +173,12 @@ export default {
         this.socket.emit("join", socketData);
 
     },
-    computed() {
-      
+    beforeDestroy() {
+      //こいつ動いてないから後でどうにかする
+      const socketData = {
+          studentID : this.$store.state.studentID
+      };
+      this.socket.emit("close", socketData);
     },
     methods: {
         sendMessage() {
