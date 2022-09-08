@@ -125,7 +125,8 @@ export default {
         return {
             a: this.$store.state.classID,
             b: this.$store.state.pair_num,
-            c: this.$store.state.student_name,
+            c: this.$store.state.studentID,
+            studentID: this.$store.state.studentID,
             msg: "",
             msgs: [],
             socket: "",
@@ -167,7 +168,7 @@ export default {
         });
 
         const socketData = {
-          studentID : 'test'
+          studentID : this.$store.state.studentID
         };
         this.socket.emit("join", socketData);
 

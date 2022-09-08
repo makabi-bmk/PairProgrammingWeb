@@ -82,6 +82,8 @@ export default {
     },
     login() {
       var studentID = this.User.email.split('@')[0];
+      this.$store.commit('SET_STUDENT', studentID);
+      
       console.log(this.classID);
       this.$fire.database.ref('/' + this.classID + '/students/' + studentID).on('value', (snapshot) => {
         console.log(snapshot.val());
@@ -104,6 +106,7 @@ export default {
           this.modalFlag = false;
 
           this.$store.commit('SET_CLASS', this.classID);
+          
           this.$store.commit('SET_STUDENT_NAME', this.student_name);
           this.$store.commit('SET_PAIR_NUM', this.pair_num);
         }
@@ -113,7 +116,7 @@ export default {
       this.modalFlag = false;
     },
     gameStart() {
-      alert("game start");
+      this.$router.push("/game");
     }
   }
 }

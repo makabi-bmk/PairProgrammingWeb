@@ -5,6 +5,7 @@ export default ({store}) => {
     key: 'PairProgrammingApp',
     paths: [
         'classID',
+        'studentID',
         'student_name',
         'pair_num'
     ],
