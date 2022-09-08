@@ -20,8 +20,8 @@ io.on('connection', socket => {
     const studentID = msg['studentID'];
     socketDict[studentID] = socket.id;
     console.log(socketDict);
-    const param = {status: 'OK'};
-    io.to(socket.id).emit('join', param);
+    // const param = {};
+    io.to(socket.id).emit('join', {});
   });
 
   socket.on('close', msg=> {
@@ -32,13 +32,14 @@ io.on('connection', socket => {
   });
 
   socket.on('check_pair', msg=> {
-    const studentID = msg['studentID'];
-    const pair = msg['pair_studentID'];
+    console.log("pair");
+    console.log(msg);
+    const pairID = msg['pairID'];
     var param = {};
-    if (pair in socketDict) {
-      param['ready'] = false;
-    } else {
+    if (pairID in socketDict) {
       param['ready'] = true;
+    } else {
+      param['ready'] = false;
     }
     io.to(socket.id).emit('check_pair', param);
   });

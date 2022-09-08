@@ -126,6 +126,7 @@ export default {
             a: this.$store.state.classID,
             b: this.$store.state.pair_num,
             c: this.$store.state.pairID,
+            pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
             msg: "",
             msgs: [],
@@ -172,13 +173,15 @@ export default {
         this.socket.on("check_pair", msg => {
             console.log(msg);
         });
-        this.socket.on("join", msg => {
-
-            this.socket.emit("check_pair", )
+        this.socket.on("join", _ => {
+          var socketData = {
+            pairID : this.pairID
+          };
+          this.socket.emit("check_pair", socketData);
         });
 
-        const socketData = {
-          studentID : this.$store.state.studentID
+        var socketData = {
+          studentID : this.studentID
         };
         this.socket.emit("join", socketData);
       }
