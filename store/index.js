@@ -6,6 +6,7 @@ export const state = () => ({
     studentID: '',
     student_name: '',
     pair_num: '',
+    pairID: [],
   })
   
   export const getters = {
@@ -92,4 +93,9 @@ export const state = () => ({
     SET_PAIR_NUM(state, pair_num) {
       state.pair_num = pair_num;
     },
+    SET_PAIR(state, newPairID) {
+      if (!state.pairID.includes(newPairID)) {
+        state.pairID.push(newPairID);
+      }
+    }
   }

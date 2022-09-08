@@ -83,7 +83,7 @@ export default {
     login() {
       var studentID = this.User.email.split('@')[0];
       this.$store.commit('SET_STUDENT', studentID);
-      
+
       console.log(this.classID);
       this.$fire.database.ref('/' + this.classID + '/students/' + studentID).on('value', (snapshot) => {
         console.log(snapshot.val());
@@ -106,9 +106,25 @@ export default {
           this.modalFlag = false;
 
           this.$store.commit('SET_CLASS', this.classID);
-          
           this.$store.commit('SET_STUDENT_NAME', this.student_name);
           this.$store.commit('SET_PAIR_NUM', this.pair_num);
+
+          this.$fire.database.ref('/' + this.classID + '/students').on('value', (snapshot) => {
+            // console.log(snapshot.val());
+            for (var ID in snapshot.val()) {
+              // console.log(student["pair_num"]);
+              if (ID == studentID) {
+                continue;
+              }
+              if((snapshot.val())[ID]["pair_num"] == this.pair_num) {
+                var pairID = (snapshot.val())[ID]["student_name"];
+                console.log("Your pair is " + pairID);
+                this.$store.commit('SET_PAIR', ID);
+              }
+            }
+          });
+
+          
         }
       });
     },

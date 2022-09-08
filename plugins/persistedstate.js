@@ -7,7 +7,8 @@ export default ({store}) => {
         'classID',
         'studentID',
         'student_name',
-        'pair_num'
+        'pair_num',
+        'pairID',
     ],
     storage: window.sessionStorage,
   })(store)

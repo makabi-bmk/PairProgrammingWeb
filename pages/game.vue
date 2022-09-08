@@ -125,7 +125,7 @@ export default {
         return {
             a: this.$store.state.classID,
             b: this.$store.state.pair_num,
-            c: this.$store.state.studentID,
+            c: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
             msg: "",
             msgs: [],
@@ -169,6 +169,13 @@ export default {
             console.log(msg);
             this.msgs.push(msg);
         });
+        this.socket.on("check_pair", msg => {
+            console.log(msg);
+        });
+        this.socket.on("join", msg => {
+
+            this.socket.emit("check_pair", )
+        });
 
         const socketData = {
           studentID : this.$store.state.studentID
@@ -176,7 +183,7 @@ export default {
         this.socket.emit("join", socketData);
       }
     },
-    beforeDestroy() {
+    destroyed() {
       //こいつ動いてないから後でどうにかする
       const socketData = {
           studentID : this.$store.state.studentID
