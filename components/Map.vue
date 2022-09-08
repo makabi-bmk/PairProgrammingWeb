@@ -3,11 +3,11 @@
         <table cellspacing="0">
             <tr v-for="cell in cells">
                 <td v-for="i in cell" class="cell" v-on:click="clicked()">
-                    <img v-if="i===0" src="../static/map/0.png" />
-                    <img v-if="i===1" src="../static/map/1.png" />
-                    <img v-if="i===2" src="../static/map/2.png" />
-                    <img v-if="i===3" src="../static/map/3.png" />
-                    <img v-if="i===4" src="../static/map/hero.png" />
+                    <img class="panel" v-if="i===0" src="../static/map/0.png" />
+                    <img class="panel" v-if="i===1" src="../static/map/1.png" />
+                    <img class="panel" v-if="i===2" src="../static/map/2.png" />
+                    <img class="panel" v-if="i===3" src="../static/map/3.png" />
+                    <img class="panel" v-if="i===4" src="../static/map/hero.png" />
                 </td>
             </tr>
         </table>
@@ -16,7 +16,9 @@
     
 <style>
 img {
-    height: 70px;
+    /* height: 70px; */
+    /* height:3.8095em; */
+    height: 3.82em;
     padding: 0px;
     margin: 0px;
 }

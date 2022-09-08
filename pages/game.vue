@@ -25,29 +25,59 @@
   <!-- <div class="map"> -->
     <Map class="map"></Map>
   <!-- </div> -->
-    <img class="map" id="key" src="../static/key.png" usemap="#move" />
+    <!-- <img class="map" id="key" src="../static/key.png" usemap="#move" />
     <map name="move">
       <area shape="rect" coords="100,0,200,100" @click="ho(1)" alt="リンク1" />
       <area shape="rect" coords="0,100,100,200" @click="ho(2)" alt="リンク2" />
       <area shape="rect" coords="100,200,700,1000" @click="ho(3)" alt="リン3" />
       <area shape="rect" coords="200,100,1045,1000" @click="ho(4)" alt="リンク4" /> -->
-    </map>
+    <!-- </map> -->
+
+    <div class="map" id="key">
+      <table>
+        <tr>
+          <td></td>
+          <td><img id="up" src="../static/key2.png" /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><img id="left" src="../static/key2.png" /></td>
+          <td><img id="down" src="../static/key2.png" /></td>
+          <td><img id="right" src="../static/key2.png" /></td>
+        </tr>
+      </table>
+      <v-btn id="go">しらべる！</v-btn>
+    </div>
   </div>
 </template>
 
 <style>
-#key {
-  height: 300px;
+#up {
+  transform: rotate(270deg);
+}
+#right {
+  transform: rotate(0deg);
+}
+#left {
+  transform: rotate(180deg);
+}
+#down {
+  transform: rotate(90deg);
+}
+#go {
+  margin: 10px;
 }
 .area {
   background-color: black;
 }
 .map {
   display: inline-block;
-  padding-right: 50px;
+  vertical-align: top;
+  margin: 1em;
+  text-align: center;
 }
 .view {
-  height: 420px;
+  height: 23em;
 }
 </style>
 
