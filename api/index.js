@@ -20,6 +20,8 @@ io.on('connection', socket => {
     const studentID = msg['studentID'];
     socketDict[studentID] = socket.id;
     console.log(socketDict);
+    const param = {status: 'OK'};
+    io.to(socket.id).emit('join', param);
   });
 
   socket.on('close', msg=> {
@@ -27,6 +29,18 @@ io.on('connection', socket => {
     delete socketDict[studentID];
     console.log("delete");
     console.log(socketDict);
+  });
+
+  socket.on('check_pair', msg=> {
+    const studentID = msg['studentID'];
+    const pair = msg['pair_studentID'];
+    var param = {};
+    if (pair in socketDict) {
+      param['ready'] = false;
+    } else {
+      param['ready'] = true;
+    }
+    io.to(socket.id).emit('check_pair', param);
   });
 
   // send-msgイベントを受け取ったらブロードキャストする
