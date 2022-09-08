@@ -23,7 +23,7 @@
     <img class="map view" src="../static/road.png" />
   <!-- </div> -->
   <!-- <div class="map"> -->
-    <Map class="map"></Map>
+    <Map class="map" :cells="cells"></Map>
   <!-- </div> -->
     <!-- <img class="map" id="key" src="../static/key.png" usemap="#move" />
     <map name="move">
@@ -37,13 +37,13 @@
       <table>
         <tr>
           <td></td>
-          <td><img id="up" src="../static/key2.png" /></td>
+          <td><img id="up" @click="move('up')" src="../static/key2.png" /></td>
           <td></td>
         </tr>
         <tr>
-          <td><img id="left" src="../static/key2.png" /></td>
-          <td><img id="down" src="../static/key2.png" /></td>
-          <td><img id="right" src="../static/key2.png" /></td>
+          <td><img class="button" id="left" @click="move('left')" src="../static/key2.png" /></td>
+          <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td>
+          <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td>
         </tr>
       </table>
       <v-btn id="go">しらべる！</v-btn>
@@ -67,6 +67,10 @@
 #go {
   margin: 10px;
 }
+/* .button {
+  height: 1.5em;
+  padding: 1em;
+} */
 .area {
   background-color: black;
 }
@@ -85,13 +89,33 @@
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
 
+// var cells =  [
+//                 [4, 0, 0, 3, 0, 0],
+//                 [0, 1, 0, 0, 0, 0],
+//                 [0, 0, 2, 1, 0, 0],
+//                 [0, 0, 1, 0, 0, 0],
+//                 [0, 0, 0, 0, 0, 0],
+//                 [0, 0, 0, 0, 0, 0],
+//             ];
+
 export default {
+  components: {
+    Map
+  },
     data() {
         return {
             msg: "",
             msgs: [],
             socket: "",
-
+            locate: [0,0],
+            cells :  [
+                [4, 0, 0, 3, 0, 0],
+                [0, 1, 0, 0, 0, 0],
+                [0, 0, 2, 1, 0, 0],
+                [0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+            ],
         };
     },
     mounted() {
@@ -118,8 +142,28 @@ export default {
         },
         ho(a) {
           alert(a);
+        },
+        move(direction) {
+          console.log(this.cells);
+          if (direction == 'up') {
+            if (this.locate[1] != 0) {
+              this.locate[1]--;
+            }
+          } else if(direction == 'down') {
+            if (this.locate[1] != this.cells.length - 1) {
+              this.locate[1]++;
+            }
+          } else if(direction == 'right') {
+            if (this.locate[0] != this.cells[0].length - 1) {
+              this.locate[0]++;
+            }
+          } else if(direction == 'left') {
+            if (this.locate[0] != 0) {
+              this.locate[0]--;
+            }
+          }
+          console.log(this.locate);
         }
     },
-    components: { Map }
 }
 </script>
