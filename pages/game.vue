@@ -3,7 +3,7 @@
   <p>{{a}}</p>
   <p>{{b}}</p>
   <p>{{c}}</p>
-  <section class="section">
+  <!-- <section class="section">
     <div class="field">
       <div class="control">
         <input class="input" type="text" v-model="msg" @keypress.enter.exact="sendMessage">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </article>
-  </section>
+  </section> -->
 
   <!-- <div class="map"> -->
     <img class="map view" src="../static/road.png" />
@@ -60,8 +60,9 @@
     </div>
 
     <Modal v-if="modalFlag">
-      <img class="modal_image" v-if="resultStatus===0" src="../static/goal.png" />
-      <img class="modal_image" v-if="resultStatus===1" src="../static/failed.png" />
+      <img class="modal_image" v-if="resultStatus==='goal'" src="../static/goal.png" />
+      <img class="modal_image" v-if="resultStatus==='failed'" src="../static/failed.png" />
+      <img class="modal_image" v-if="resultStatus==='loading'" src="../static/wait.png" />
 
       <div>{{modalMessage}}</div>
 
@@ -131,9 +132,9 @@ export default {
             msg: "",
             msgs: [],
             socket: "",
-            modalMessage: "",
-            modalFlag: false,
-            resultStatus: 0,
+            modalMessage: "ペアを待っています…",
+            modalFlag: true,
+            resultStatus: "loading",
             locate: [0,0],
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -249,10 +250,10 @@ export default {
         },
         research() {
           if(this.ans[this.locate[0]][this.locate[1]] == 2) {
-            this.resultStatus = 0;
+            this.resultStatus = 'goal';
             this.modalMessage = "せいこう！";
           } else {
-            this.resultStatus = 1;
+            this.resultStatus = 'failed';
             this.modalMessage = "しっぱい…";
           }
           this.modalFlag = true;
