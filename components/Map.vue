@@ -7,7 +7,8 @@
                     <img class="panel" v-if="i===1" src="../static/map/1.png" />
                     <img class="panel" v-if="i===2" src="../static/map/2.png" />
                     <img class="panel" v-if="i===3" src="../static/map/3.png" />
-                    <img class="panel" v-if="i===4" src="../static/map/hero.png" />
+                    <img class="panel" v-if="i===4" src="../static/map/4.png" />
+                    <img class="panel" v-if="i===5" src="../static/map/hero.png" />
                 </td>
             </tr>
         </table>

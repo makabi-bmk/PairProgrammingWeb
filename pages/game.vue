@@ -109,7 +109,15 @@ export default {
             socket: "",
             locate: [0,0],
             cells :  [
-                [4, 0, 0, 3, 0, 0],
+                [5, 4, 0, 3, 0, 0],
+                [0, 1, 0, 0, 0, 0],
+                [0, 0, 2, 1, 0, 0],
+                [0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+            ],
+            ans :  [
+                [5, 4, 0, 3, 0, 0],
                 [0, 1, 0, 0, 0, 0],
                 [0, 0, 2, 1, 0, 0],
                 [0, 0, 1, 0, 0, 0],
@@ -145,24 +153,26 @@ export default {
         },
         move(direction) {
           console.log(this.cells);
+          var present = [this.locate[0], this.locate[1]];
+
           if (direction == 'up') {
-            if (this.locate[1] != 0) {
-              this.locate[1]--;
-            }
+            present[1]--;
           } else if(direction == 'down') {
-            if (this.locate[1] != this.cells.length - 1) {
-              this.locate[1]++;
-            }
-          } else if(direction == 'right') {
-            if (this.locate[0] != this.cells[0].length - 1) {
-              this.locate[0]++;
-            }
+            present[1]++;
           } else if(direction == 'left') {
-            if (this.locate[0] != 0) {
-              this.locate[0]--;
-            }
+            present[0]--;
+          } else if(direction == 'right') {
+            present[0]++;
           }
-          console.log(this.locate);
+          if (0 <= present[0] && present[0] < this.cells[0].length &&
+              0 <= present[1] && present[1] < this.cells.length) {
+                console.log("hoyo");
+                this.locate[0] = present[0];
+                this.locate[1] = present[1];
+          }
+        },
+        checkRoot() {
+          
         }
     },
 }
