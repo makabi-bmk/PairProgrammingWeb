@@ -1,5 +1,8 @@
 <template>
   <div>
+  <p>{{a}}</p>
+  <p>{{b}}</p>
+  <p>{{c}}</p>
   <section class="section">
     <div class="field">
       <div class="control">
@@ -107,6 +110,9 @@ export default {
   },
     data() {
         return {
+            a: this.$store.state.classID,
+            b: this.$store.state.pair_num,
+            c: this.$store.state.student_name,
             msg: "",
             msgs: [],
             socket: "",

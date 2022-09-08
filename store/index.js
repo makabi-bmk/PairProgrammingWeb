@@ -84,6 +84,8 @@ export const state = () => ({
     },
     SET_STUDENT_NAME(state, student_name) {
       state.student_name = student_name;
-    }
-
+    },
+    SET_PAIR_NUM(state, pair_num) {
+      state.pair_num = pair_num;
+    },
   }

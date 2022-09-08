@@ -104,8 +104,8 @@ export default {
           this.modalFlag = false;
 
           this.$store.commit('SET_CLASS', this.classID);
-          this.$store.commit('', this.student_name);
-          this.$store.commit('')
+          this.$store.commit('SET_STUDENT_NAME', this.student_name);
+          this.$store.commit('SET_PAIR_NUM', this.pair_num);
         }
       });
     },

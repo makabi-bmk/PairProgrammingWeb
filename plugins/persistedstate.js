@@ -4,7 +4,9 @@ export default ({store}) => {
   createPersistedState({
     key: 'PairProgrammingApp',
     paths: [
-        'classID'
+        'classID',
+        'student_name',
+        'pair_num'
     ],
     storage: window.sessionStorage,
   })(store)
