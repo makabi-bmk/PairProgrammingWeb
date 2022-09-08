@@ -4,15 +4,6 @@
     <button @click="logout">Logout</button>
     <h2>User Profile</h2>
 
-          <v-text-field
-            v-model="classID"
-            label="クラスを検索"
-            placeholder="先生から聞いたクラス名を入力しよう"
-            outlined
-            dense
-          ></v-text-field>
-          <v-btn class="primary" @click="login">検索</v-btn>
-
           <!-- <h2>検索結果</h2> -->
 
   <v-card v-if="isSuccessLogin">
@@ -25,13 +16,27 @@
   </v-card>
     
     <Modal v-if="modalFlag">
-      <div>{{consoleMessage}}</div>
+      <img id="search" v-if="User != null" src="../static/serarch.png" />
+      <div>{{modalMessage}}</div>
+      <v-text-field
+            v-model="classID"
+            label="クラスを検索"
+            placeholder="先生から聞いたクラス名を入力しよう"
+            outlined
+            dense
+          ></v-text-field>
+          <v-btn class="primary" @click="login">検索</v-btn>
   </Modal>
   </div>
 </template>
 
-<script>
+<style scoped>
+#search {
+  height: 10em;
+}
+</style>
 
+<script>
 export default {
   layout: "default",
   name: "home",
@@ -39,8 +44,8 @@ export default {
   data() {
     return {
       User: this.$store.state.authUser,
-      consoleMessage: '',
-      modalFlag: false,
+      modalMessage: '先生からきいたクラス名を打とう！',
+      modalFlag: true,
       isSuccessLogin: false,
       class_name: '',
       student_name: '',
@@ -85,16 +90,22 @@ export default {
 
           // const modal = document.querySelector('.window');
           // disableBodyScroll(modal);
-          this.consoleMessage = 'クラスが見つかりませんでした';
-          this.modalFlag = true;
-          setTimeout(this.closeModal, 3000);
+          this.modalMessage = 'もう一度入力してみてね';
+          // this.modalFlag = true;
+          // setTimeout(this.closeModal, 3000);
         } else {
           this.$fire.database.ref('/' + this.classID).on('value', (snapshot) => {
             this.class_name = (snapshot.val())["class_name"];
           });
+
           this.student_name = (snapshot.val())["student_name"];
           this.pair_num = (snapshot.val())["pair_num"];
           this.isSuccessLogin = true;
+          this.modalFlag = false;
+
+          this.$store.commit('SET_CLASS', this.classID);
+          this.$store.commit('', this.student_name);
+          this.$store.commit('')
         }
       });
     },
