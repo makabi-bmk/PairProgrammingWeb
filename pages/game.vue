@@ -161,6 +161,9 @@ export default {
         };
     },
     mounted() {
+      if (this.studentID == '') {
+        this.$router.push("/login");
+      } else {
         this.socket = io("http://localhost:3001");
         this.socket.on("new-msg", msg => {
             console.log(msg);
@@ -171,7 +174,7 @@ export default {
           studentID : this.$store.state.studentID
         };
         this.socket.emit("join", socketData);
-
+      }
     },
     beforeDestroy() {
       //こいつ動いてないから後でどうにかする
