@@ -146,13 +146,13 @@ export default {
           var present = [this.locate[0], this.locate[1]];
 
           if (direction === 'up') {
-            present[1]--;
-          } else if(direction === 'down') {
-            present[1]++;
-          } else if(direction === 'left') {
             present[0]--;
-          } else if(direction === 'right') {
+          } else if(direction === 'down') {
             present[0]++;
+          } else if(direction === 'left') {
+            present[1]--;
+          } else if(direction === 'right') {
+            present[1]++;
           }
           if (0 <= present[0] && present[0] < this.cells[0].length &&
               0 <= present[1] && present[1] < this.cells.length) {
