@@ -2,7 +2,9 @@
 
 export const state = () => ({
     authUser: null,
-    classID: ''
+    classID: '',
+    student_name: '',
+    pair_num: '',
   })
   
   export const getters = {
@@ -78,6 +80,10 @@ export const state = () => ({
       }
     },
     SET_CLASS(state, classID) {
-      state.classID = classID
+      state.classID = classID;
+    },
+    SET_STUDENT_NAME(state, student_name) {
+      state.student_name = student_name;
     }
+
   }
