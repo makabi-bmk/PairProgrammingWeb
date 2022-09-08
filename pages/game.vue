@@ -99,7 +99,7 @@
 .map {
   display: inline-block;
   vertical-align: top;
-  margin: 1em;
+  margin: 1vh;
   text-align: center;
 }
 .view {
@@ -165,6 +165,12 @@ export default {
             console.log(msg);
             this.msgs.push(msg);
         });
+
+        const socketData = {
+          studentID : 'test'
+        };
+        this.socket.emit("join", socketData);
+
     },
     computed() {
       

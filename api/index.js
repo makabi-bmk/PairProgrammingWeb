@@ -1,5 +1,8 @@
-const express = require('express')()
-const server = require('http').createServer(express)
+const express = require('express')();
+const server = require('http').createServer(express);
+
+var socketDict = {};
+
 // const cors = require('cors')
 const io = require('socket.io')(server, {
     cors: {
@@ -10,10 +13,14 @@ const io = require('socket.io')(server, {
     }
 })
 
-
 io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)
-//   socket.set({ 'Access-Control-Allow-Origin': '*' });
+
+  socket.on('join', msg=> {
+    const studentID = msg['studentID'];
+    socketDict[studentID] = socket.id;
+    console.log(socketDict);
+  });
 
   // send-msgイベントを受け取ったらブロードキャストする
   socket.on('send-msg', msg => {
