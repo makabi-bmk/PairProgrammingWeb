@@ -40,13 +40,20 @@
       <table>
         <tr>
           <td></td>
-          <td><img id="up" @click="move('up')" src="../static/key2.png" /></td>
+          <td><img class="button" id="up" @click="move('up')" src="../static/key2.png" /></td>
           <td></td>
         </tr>
         <tr>
           <td><img class="button" id="left" @click="move('left')" src="../static/key2.png" /></td>
-          <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td>
+          <td></td>
+          <!-- <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td> -->
           <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td>
+        </tr>
+        <tr>
+          <td></td>
+          <!-- <td><img class="button" id="left" @click="move('left')" src="../static/key2.png" /></td> -->
+          <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td>
+          <!-- <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td> -->
         </tr>
       </table>
       <v-btn id="go" @click="research()">しらべる！</v-btn>
@@ -85,6 +92,10 @@
 .area {
   background-color: black;
 }
+.button {
+  height: 7vh;
+  /* margin: 0.5vh; */
+}
 .map {
   display: inline-block;
   vertical-align: top;
@@ -92,10 +103,12 @@
   text-align: center;
 }
 .view {
-  height: 23em;
+  height: 60vh;
+  /* height: 23em; */
 }
 .modal_image {
-  height: 15em;
+  /* height: 15em; */
+  height: 40vh;
 }
 </style>
 
@@ -121,20 +134,28 @@ export default {
             resultStatus: 0,
             locate: [0,0],
             cells :  [
-                [5, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
+                [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
             ans :  [
-                [1, 1, 0, 3, 0, 0],
-                [0, 1, 0, 0, 0, 0],
-                [0, 1, 0, 0, 0, 0],
-                [0, 1, 1, 2, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
+                [1, 1, 0, 3, 0, 0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 1, 2, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
         };
     },
@@ -219,13 +240,17 @@ export default {
           this.locate[0] = 0;
           this.locate[1] = 0;
           this.cells =  [
-                [5, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0],
-          ];
+                [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ];
           this.cells.splice();
         },
     },

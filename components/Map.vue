@@ -26,15 +26,14 @@
     opacity: 0;
 }
 img {
-    /* height: 70px; */
-    /* height:3.8095em; */
-    height: 3.82em;
+    height: 6vh;
     padding: 0px;
     margin: 0px;
 }
 table {
     border-collapse: collapse;
     border-spacing: 0;
+    /* height: 10%; */
 }
 tr {
     padding: 0px;
