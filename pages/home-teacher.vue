@@ -152,9 +152,8 @@ export default {
   data() {
     return {
       //TODO: ここあとでコメントアウト外す
-      // classID: this.$store.state.classID,
+      classID: this.$store.state.classID,
       valid: false,
-      classID: 'class4',
       class_name: 'class_name',
       admin_name: 'admin_name',
       password: 'password',

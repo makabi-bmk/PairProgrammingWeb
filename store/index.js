@@ -1,3 +1,5 @@
+// import createPersistedState from 'vuex-persistedstate';
+
 export const state = () => ({
     authUser: null,
     classID: ''
