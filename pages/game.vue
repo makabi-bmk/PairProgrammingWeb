@@ -96,18 +96,18 @@ export default {
             socket: "",
             locate: [0,0],
             cells :  [
-                [5, 4, 0, 3, 0, 0],
-                [0, 1, 0, 0, 0, 0],
-                [0, 0, 2, 1, 0, 0],
-                [0, 0, 1, 0, 0, 0],
+                [5, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0],
             ],
             ans :  [
-                [5, 4, 0, 3, 0, 0],
+                [1, 1, 0, 3, 0, 0],
                 [0, 1, 0, 0, 0, 0],
-                [0, 0, 2, 1, 0, 0],
-                [0, 0, 1, 0, 0, 0],
+                [0, 1, 0, 0, 0, 0],
+                [0, 1, 1, 2, 0, 0],
                 [0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0],
             ],
@@ -156,16 +156,31 @@ export default {
           }
           if (0 <= present[0] && present[0] < this.cells[0].length &&
               0 <= present[1] && present[1] < this.cells.length) {
-                this.cells[this.locate[0]][this.locate[1]] = 4;
-                this.cells[present[0]][present[1]] = 5;
+                switch(this.ans[present[0]][present[1]]) {
+                  case 0:
+                    this.cells[present[0]][present[1]] = 2;
+                  break;
+
+                  case 1:
+                    this.cells[this.locate[0]][this.locate[1]] = 4;
+                    this.cells[present[0]][present[1]] = 5;
+                  
+                    this.locate[0] = present[0];
+                    this.locate[1] = present[1];
+                  break;
+
+                  case 2:
+                  this.cells[present[0]][present[1]] = 3;
+                  break;
+                }
                 this.cells.splice();
-              
-                this.locate[0] = present[0];
-                this.locate[1] = present[1];
           }
         },
-        checkRoot() {
-          
+        checkRoot(x, y) {
+          if (this.ans[x][y] == 1) {
+            return true;
+          }
+          else false;
         }
     },
 }
