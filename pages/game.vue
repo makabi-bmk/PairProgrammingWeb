@@ -67,10 +67,6 @@
 #go {
   margin: 10px;
 }
-/* .button {
-  height: 1.5em;
-  padding: 1em;
-} */
 .area {
   background-color: black;
 }
@@ -88,15 +84,6 @@
 <script>
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
-
-// var cells =  [
-//                 [4, 0, 0, 3, 0, 0],
-//                 [0, 1, 0, 0, 0, 0],
-//                 [0, 0, 2, 1, 0, 0],
-//                 [0, 0, 1, 0, 0, 0],
-//                 [0, 0, 0, 0, 0, 0],
-//                 [0, 0, 0, 0, 0, 0],
-//             ];
 
 export default {
   components: {
@@ -133,6 +120,9 @@ export default {
             this.msgs.push(msg);
         });
     },
+    computed() {
+      
+    },
     methods: {
         sendMessage() {
             this.msg = this.msg.trim();
@@ -155,18 +145,21 @@ export default {
           console.log(this.cells);
           var present = [this.locate[0], this.locate[1]];
 
-          if (direction == 'up') {
+          if (direction === 'up') {
             present[1]--;
-          } else if(direction == 'down') {
+          } else if(direction === 'down') {
             present[1]++;
-          } else if(direction == 'left') {
+          } else if(direction === 'left') {
             present[0]--;
-          } else if(direction == 'right') {
+          } else if(direction === 'right') {
             present[0]++;
           }
           if (0 <= present[0] && present[0] < this.cells[0].length &&
               0 <= present[1] && present[1] < this.cells.length) {
-                console.log("hoyo");
+                this.cells[this.locate[0]][this.locate[1]] = 4;
+                this.cells[present[0]][present[1]] = 5;
+                this.cells.splice();
+              
                 this.locate[0] = present[0];
                 this.locate[1] = present[1];
           }
