@@ -46,8 +46,20 @@
           <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td>
         </tr>
       </table>
-      <v-btn id="go">しらべる！</v-btn>
+      <v-btn id="go" @click="research()">しらべる！</v-btn>
     </div>
+
+    <Modal v-if="modalFlag">
+      <img class="modal_image" v-if="resultStatus===0" src="../static/goal.png" />
+      <img class="modal_image" v-if="resultStatus===1" src="../static/failed.png" />
+
+      <div>{{modalMessage}}</div>
+
+      <v-btn v-if="resultStatus===0" @click="modalFlag=false; updateSubject()">つぎにすすむ</v-btn>
+      <v-btn v-if="resultStatus===1" @click="modalFlag=false; resetSubject()">もういちど</v-btn>
+
+      <!-- <a href="./login-teacher">閉じる</a> -->
+  </Modal>
   </div>
 </template>
 
@@ -79,11 +91,15 @@
 .view {
   height: 23em;
 }
+.modal_image {
+  height: 15em;
+}
 </style>
 
 <script>
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
+import Modal from '~/components/Modal.vue';
 
 export default {
   components: {
@@ -94,6 +110,9 @@ export default {
             msg: "",
             msgs: [],
             socket: "",
+            modalMessage: "",
+            modalFlag: false,
+            resultStatus: 0,
             locate: [0,0],
             cells :  [
                 [5, 0, 0, 0, 0, 0],
@@ -162,6 +181,7 @@ export default {
                   break;
 
                   case 1:
+                  case 2:
                     this.cells[this.locate[0]][this.locate[1]] = 4;
                     this.cells[present[0]][present[1]] = 5;
                   
@@ -169,19 +189,39 @@ export default {
                     this.locate[1] = present[1];
                   break;
 
-                  case 2:
-                  this.cells[present[0]][present[1]] = 3;
-                  break;
+                  // case 2:
+                  // this.cells[present[0]][present[1]] = 3;
+                  // break;
                 }
                 this.cells.splice();
           }
         },
-        checkRoot(x, y) {
-          if (this.ans[x][y] == 1) {
-            return true;
+        research() {
+          if(this.ans[this.locate[0]][this.locate[1]] == 2) {
+            this.resultStatus = 0;
+            this.modalMessage = "せいこう！";
+          } else {
+            this.resultStatus = 1;
+            this.modalMessage = "しっぱい…";
           }
-          else false;
-        }
+          this.modalFlag = true;
+        },
+        updateSubject() {
+
+        },
+        resetSubject() {
+          this.locate[0] = 0;
+          this.locate[1] = 0;
+          this.cells =  [
+                [5, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+          ];
+          this.cells.splice();
+        },
     },
 }
 </script>
