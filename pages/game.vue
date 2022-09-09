@@ -1,8 +1,8 @@
 <template>
   <div>
-  <p>{{a}}</p>
+  <!-- <p>{{a}}</p>
   <p>{{b}}</p>
-  <p>{{c}}</p>
+  <p>{{c}}</p> -->
   <!-- <section class="section">
     <div class="field">
       <div class="control">
@@ -66,8 +66,8 @@
 
       <div>{{modalMessage}}</div>
 
-      <v-btn v-if="resultStatus===0" @click="modalFlag=false; updateSubject()">つぎにすすむ</v-btn>
-      <v-btn v-if="resultStatus===1" @click="modalFlag=false; resetSubject()">もういちど</v-btn>
+      <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateSubject()">つぎにすすむ</v-btn>
+      <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetSubject()">もういちど</v-btn>
 
       <!-- <a href="./login-teacher">閉じる</a> -->
   </Modal>
@@ -133,7 +133,7 @@ export default {
             msgs: [],
             socket: "",
             modalMessage: "ペアを待っています…",
-            modalFlag: true,
+            modalFlag: false,
             resultStatus: "loading",
             locate: [0,0],
             cells :  [
@@ -227,24 +227,30 @@ export default {
           }
           if (0 <= present[0] && present[0] < this.cells[0].length &&
               0 <= present[1] && present[1] < this.cells.length) {
-                switch(this.ans[present[0]][present[1]]) {
-                  case 0:
-                    this.cells[present[0]][present[1]] = 2;
-                  break;
-
-                  case 1:
-                  case 2:
-                    this.cells[this.locate[0]][this.locate[1]] = 4;
+                this.cells[this.locate[0]][this.locate[1]] = 4;
                     this.cells[present[0]][present[1]] = 5;
                   
                     this.locate[0] = present[0];
                     this.locate[1] = present[1];
-                  break;
+                // switch(this.ans[present[0]][present[1]]) {
+                //   // case 0:
+                //   //   this.cells[present[0]][present[1]] = 2;
+                //   // break;
 
-                  // case 2:
-                  // this.cells[present[0]][present[1]] = 3;
-                  // break;
-                }
+                //   case 0:
+                //   case 1:
+                //   case 2:
+                //     this.cells[this.locate[0]][this.locate[1]] = 4;
+                //     this.cells[present[0]][present[1]] = 5;
+                  
+                //     this.locate[0] = present[0];
+                //     this.locate[1] = present[1];
+                //   break;
+
+                //   // case 2:
+                //   // this.cells[present[0]][present[1]] = 3;
+                //   // break;
+                // }
                 this.cells.splice();
           }
         },
