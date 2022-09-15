@@ -226,6 +226,7 @@ export default {
             this.role = msg['role'];
               this.resultStatus = 'start';
               this.modalMessage = 'ゲームスタート！あなたは' + msg['role'] + 'です';
+              this.modalFlag = false;
         });
         this.socket.on("join", _ => {
           var socketData = {
