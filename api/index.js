@@ -37,13 +37,16 @@ io.on('connection', socket => {
     const pairID = msg['pairID'];
     var param = {};
     if (pairID in socketDict) {
-      param['ready'] = true;
-      param['role'] = 'exploration';
-    } else {
-      param['ready'] = false;
-      param['role'] = 'information';
+      // param['ready'] = true;
+      param['role'] = '案内係';
+      io.to(socketDict[pairID]).emit('check_pair', param);
+      param['role'] = '探検係';
+      io.to(socket.id).emit('check_pair', param);
     }
-    io.to(socket.id).emit('check_pair', param);
+    // } else {
+    //   // param['ready'] = false;
+    // }
+    // io.to(socket.id).emit('check_pair', param);
   });
 
   // send-msgイベントを受け取ったらブロードキャストする

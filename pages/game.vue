@@ -70,6 +70,7 @@
 
       <div>{{modalMessage}}</div>
 
+      <v-btn v-if="resultStatus==='start'" @click="modalFlag=false">ゲームスタート</v-btn>
       <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateSubject()">つぎにすすむ</v-btn>
       <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetSubject()">もういちど</v-btn>
 
@@ -120,10 +121,11 @@
 <script>
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
-import Question from '~/components/Question.vue';
+import Question from '~/components/Question';
 import Modal from '~/components/Modal.vue';
 import Pages from './index.vue';
 
+/*
 var question = [
     [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -159,6 +161,7 @@ var question = [
      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
 ];
+*/
 
 export default {
   components: {
@@ -176,9 +179,10 @@ export default {
             msgs: [],
             socket: "",
             modalMessage: "ペアを待っています…",
-            modalFlag: false,
+            modalFlag: true,
             resultStatus: "loading",
             locate: [0,0],
+            role: '',
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -216,7 +220,9 @@ export default {
         });
         this.socket.on("check_pair", msg => {
             console.log(msg);
-            
+            this.role = msg['role'];
+              this.resultStatus = 'start';
+              this.modalMessage = '準備完了！あなたは' + msg['role'] + 'です';
         });
         this.socket.on("join", _ => {
           var socketData = {
