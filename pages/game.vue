@@ -23,6 +23,7 @@
   </section> -->
 
   <!-- <div class="map"> -->
+    <div>
     <img class="map view" src="../static/road.png" />
   <!-- </div> -->
   <!-- <div class="map"> -->
@@ -46,18 +47,17 @@
         <tr>
           <td><img class="button" id="left" @click="move('left')" src="../static/key2.png" /></td>
           <td></td>
-          <!-- <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td> -->
           <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td>
         </tr>
         <tr>
           <td></td>
-          <!-- <td><img class="button" id="left" @click="move('left')" src="../static/key2.png" /></td> -->
           <td><img class="button" id="down" @click="move('down')" src="../static/key2.png" /></td>
-          <!-- <td><img class="button" id="right" @click="move('right')" src="../static/key2.png" /></td> -->
         </tr>
       </table>
       <v-btn id="go" @click="research()">しらべる！</v-btn>
     </div>
+
+  </div>
 
     <Modal v-if="modalFlag">
       <img class="modal_image" v-if="resultStatus==='goal'" src="../static/goal.png" />
@@ -116,7 +116,44 @@
 <script>
 import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
+import Question from '~/components/Question.vue';
 import Modal from '~/components/Modal.vue';
+
+var question = [
+    [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ],
+    [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ],
+    [[5, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ],
+];
 
 export default {
   components: {
@@ -187,13 +224,13 @@ export default {
         this.socket.emit("join", socketData);
       }
     },
-    destroyed() {
-      //こいつ動いてないから後でどうにかする
-      const socketData = {
-          studentID : this.$store.state.studentID
-      };
-      this.socket.emit("close", socketData);
-    },
+    // destroyed() {
+    //   //こいつ動いてないから後でどうにかする
+    //   const socketData = {
+    //       studentID : this.$store.state.studentID
+    //   };
+    //   // this.socket.emit("close", socketData);
+    // },
     methods: {
         sendMessage() {
             this.msg = this.msg.trim();
