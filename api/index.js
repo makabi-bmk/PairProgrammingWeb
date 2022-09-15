@@ -38,8 +38,10 @@ io.on('connection', socket => {
     var param = {};
     if (pairID in socketDict) {
       param['ready'] = true;
+      param['role'] = 'exploration';
     } else {
       param['ready'] = false;
+      param['role'] = 'information';
     }
     io.to(socket.id).emit('check_pair', param);
   });

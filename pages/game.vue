@@ -57,7 +57,11 @@
       <v-btn id="go" @click="research()">しらべる！</v-btn>
     </div>
 
-  </div>
+    </div>
+
+    <div>
+      <img id="question_img" src="../static/question/1-1.png" />
+    </div>
 
     <Modal v-if="modalFlag">
       <img class="modal_image" v-if="resultStatus==='goal'" src="../static/goal.png" />
@@ -118,6 +122,7 @@ import io from 'socket.io-client';
 import Map from '~/components/Map.vue';
 import Question from '~/components/Question.vue';
 import Modal from '~/components/Modal.vue';
+import Pages from './index.vue';
 
 var question = [
     [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -157,8 +162,9 @@ var question = [
 
 export default {
   components: {
-    Map
-  },
+    Map,
+    Pages
+},
     data() {
         return {
             a: this.$store.state.classID,
@@ -210,6 +216,7 @@ export default {
         });
         this.socket.on("check_pair", msg => {
             console.log(msg);
+            
         });
         this.socket.on("join", _ => {
           var socketData = {
