@@ -23,7 +23,7 @@
   </section> -->
 
   <!-- <div class="map"> -->
-    <div>
+    <div v-if="role==='探検係'">
     <img class="map view" src="../static/road.png" />
   <!-- </div> -->
   <!-- <div class="map"> -->
@@ -59,7 +59,7 @@
 
     </div>
 
-    <div>
+    <div v-if="role==='案内係'">
       <img id="question_img" src="../static/question/1-1.png" />
     </div>
 
@@ -94,6 +94,9 @@
 }
 #go {
   margin: 10px;
+}
+#question_img {
+  height: 60vh;
 }
 .area {
   background-color: black;
@@ -222,7 +225,7 @@ export default {
             console.log(msg);
             this.role = msg['role'];
               this.resultStatus = 'start';
-              this.modalMessage = '準備完了！あなたは' + msg['role'] + 'です';
+              this.modalMessage = 'ゲームスタート！あなたは' + msg['role'] + 'です';
         });
         this.socket.on("join", _ => {
           var socketData = {
@@ -237,13 +240,13 @@ export default {
         this.socket.emit("join", socketData);
       }
     },
-    // destroyed() {
-    //   //こいつ動いてないから後でどうにかする
-    //   const socketData = {
-    //       studentID : this.$store.state.studentID
-    //   };
-    //   // this.socket.emit("close", socketData);
-    // },
+    beforeDestroyed() {
+      //こいつ動いてないから後でどうにかする
+      const socketData = {
+          studentID : this.$store.state.studentID
+      };
+      this.socket.emit("close", socketData);
+    },
     methods: {
         sendMessage() {
             this.msg = this.msg.trim();

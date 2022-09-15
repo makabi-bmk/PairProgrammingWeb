@@ -49,11 +49,19 @@ io.on('connection', socket => {
     // io.to(socket.id).emit('check_pair', param);
   });
 
+  socket.on('updateQuestion', msg=> {
+    const pairID = msg['pairID'];
+    var param = {};
+    var num = 1;
+    socket.emit(pairID).emit('');
+  });
+
+
   // send-msgイベントを受け取ったらブロードキャストする
   socket.on('send-msg', msg => {
-    socket.emit('new-msg', msg)
-    socket.broadcast.emit('new-msg', msg)
-    console.log(`receive message: ${JSON.stringify(msg)}`)
+    socket.emit('new-msg', msg);
+    socket.broadcast.emit('new-msg', msg);
+    console.log(`receive message: ${JSON.stringify(msg)}`);
   });
 
 });
