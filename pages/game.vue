@@ -190,7 +190,7 @@ export default {
             role: '',
             questionNum: [0, 0],
             roadView: 0,
-            questionSrc: '../static/question/1-1.png',
+            questionSrc: require('../static/question/1-1.png'),
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -252,7 +252,7 @@ export default {
           this.questionNum[0] = (msg['num'])[0];
           this.questionNum[1] = (msg['num'])[1];
 
-          this.questionSrc = '../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png';
+          this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           console.log(this.questionSrc);
         });
 
