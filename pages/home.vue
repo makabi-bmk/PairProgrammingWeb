@@ -50,6 +50,7 @@ export default {
       class_name: '',
       student_name: '',
       pair_num: '',
+      stundentID : this.$store.state.studentID
     }
   },
   mounted() {
@@ -81,8 +82,9 @@ export default {
       await this.$fire.auth.signOut()
     },
     login() {
-      var studentID = this.User.email.split('@')[0];
-      this.$store.commit('SET_STUDENT', studentID);
+      // var studentID = this.User.email.split('@')[0];
+      var studentID = this.$store.state.studentID;
+      // this.$store.commit('SET_STUDENT', studentID);
 
       console.log(this.classID);
       this.$fire.database.ref('/' + this.classID + '/students/' + studentID).on('value', (snapshot) => {

@@ -1,38 +1,21 @@
 <template>
 <div>
   <v-card class="d-flex flex-column my-6 mx-auto" width="374">
-
-    <v-text-field
+    <v-form ref="form" v-model="valid">
+      <v-card-title class="d-flex justify-center pa-0 mt-6 mb-3"
+        >生徒用ログイン</v-card-title
+      >
+      <v-card-text class="d-flex justify-center flex-column">
+        <div class="mx-9">
+          <v-text-field
             v-model="classID"
             label="クラスID"
             placeholder="15文字以内"
             outlined
             dense
             :rules="nameRules"
-    ></v-text-field>
-
-    <v-text-field
-            v-model="studentID"
-            label="生徒ID"
-            placeholder="15文字以内"
-            outlined
-            dense
-            :rules="nameRules"
-    ></v-text-field>
-    <v-form ref="form">
-      <v-card-title class="d-flex justify-center pa-0 mt-6 mb-3"
-        >ログイン</v-card-title
-      >
-      <v-card-text class="d-flex justify-center flex-column">
-        <div class="mx-9">
-          <!-- <v-text-field
-            label="クラスID"
-            placeholder="15文字以内"
-            outlined
-            dense
-            :rules="nameRules"
           ></v-text-field>
-          <v-text-field
+          <!-- <v-text-field
             label="生徒ID"
             placeholder="15文字以内"
             outlined
@@ -46,19 +29,20 @@
             dense
             :rules="mailRules"
           ></v-text-field> -->
-          <!-- <v-text-field
-            label="パスワード"
+          <v-text-field
+            v-model="studentID"
+            label="生徒ID"
             placeholder="8文字以上の半角英数記号"
             outlined
             dense
             :rules="pwRules"
-          ></v-text-field> -->
+          ></v-text-field>
         </div>
         <div class="text-center">
-          <v-btn class="primary" @click="signInWithGoogle">Googleアカウントでログイン</v-btn>
+          <v-btn class="primary" :disabled="!valid" @click="login">ログイン</v-btn>
         </div>
         <div class="text-center">
-          <a href="./login-teacher">教員用ログインはこちら</a>
+          <a href="./signup">新規登録はこちら</a>
           <!-- <v-btn class="primary" :disabled="!valid">教員用ログイン</v-btn> -->
         </div>
         <!-- <p class="signUp-border-top text-center mt-6 mb-0 pt-6">
@@ -88,6 +72,10 @@
       </v-card-text>
     </v-form>
   </v-card>
+  <Modal v-if="modalFlag">
+      <div>{{loginMessage}}</div>
+      <!-- <a href="./login-teacher">閉じる</a> -->
+  </Modal>
   </div>
 
   <!-- <div>
@@ -164,22 +152,64 @@
 </template>
  
 <script>
-  export default {
-    layout: "default",
-    name: "login",
-    methods: {
-      async signInWithGoogle() {
-      const provider = new this.$fireModule.default.auth.GoogleAuthProvider();
-      await this.$fire.auth.signInWithPopup(provider).then(res => {
-  
-        res.user.getIdToken(true).then(idToken => {
-          localStorage.setItem('access_token', idToken.toString())
-          localStorage.setItem('refresh_token', res.user.refreshToken.toString())
-        })
-      })
-      console.log('成功しました')
-      this.$router.push("/home");
+import Modal from '~/components/Modal.vue'
+import {
+    disableBodyScroll
+} from 'body-scroll-lock'
+import { setTimeout } from 'timers';
+// import store from '~/store/index'
+
+export default {
+  compotents: {
+    Modal
+  },
+  data() {
+    return {
+      valid: false,
+      modalFlag: false,
+      loginMessage: 'test',
+      mailRules: [
+        (v) => !!v || "mail is required",
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
+      pwRules: [(v) => !!v || "password is required"],
+    };
+  },
+  methods: {
+    login() {
+      this.$fire.database.ref(this.classID + '/students/' + this.studentID).on('value', (snapshot) => {
+                const modal = document.querySelector('.window');
+                disableBodyScroll(modal);
+
+                console.log(snapshot.val());
+                if (snapshot.val() != null) {
+                  this.loginMessage = 'ログインに成功しました'
+                  console.log("login success")
+
+                  this.$store.commit('SET_STUDENT', this.studentID);
+                  // this.$store.commit('SET_CLASS', this.classID)
+                  // console.log(this.$store.state.classID)
+                  // this.$store.state.classID
+
+                  this.modalFlag = true
+                  setTimeout(this.goToHome, 1500)
+                } else {
+                  this.loginMessage = 'ログインに失敗しました'
+                  console.log("login failured")
+
+                  this.modalFlag = true
+                  setTimeout(this.closeModal, 1500)
+                }
+            })
     },
+    goToHome() {
+      this.$router.push("/home")
     },
-  }
+    closeModal() {
+      this.modalFlag = false
+    },
+    validate() {
+      this.$refs.form.validate();
+    },
+  },
+};
 </script>
