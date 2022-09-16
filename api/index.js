@@ -62,6 +62,17 @@ io.on('connection', socket => {
     io.to(socketDict[pairID]).emit('updateQuestion', param);
   });
 
+  socket.on('exchangeRole', msg=> {
+    const pairID = msg['pairID'];
+    console.log(pairID);
+    var param = {};
+
+    param['role'] = '案内係';
+    io.to(socketDict[pairID]).emit('check_pair', param);
+    param['role'] = '探検係';
+    io.to(socket.id).emit('check_pair', param);
+  });
+
   socket.on('disconnect', () => {
       var id = socket.id;
       var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);

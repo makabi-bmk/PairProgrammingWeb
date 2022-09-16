@@ -63,6 +63,7 @@
 
     <div v-if="role==='案内係'">
       <img id="question_img" :src="questionSrc" />
+      <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
     </div>
 
     <Modal v-if="modalFlag">
@@ -268,6 +269,7 @@ export default {
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           // console.log(this.questionSrc);
         });
+        
 
         var socketData = {
           studentID : this.studentID
@@ -371,7 +373,7 @@ export default {
               // console.log('get question');
               this.socket.emit("updateQuestion", socketData);
 
-              resetQuestion();
+              this.resetQuestion();
             
         },
         resetQuestion() {
@@ -391,6 +393,13 @@ export default {
             ];
           this.cells.splice();
         },
+        exchangeRole() {
+          const socketData = {
+            // studentID : this.$store.state.studentID,
+            pairID : this.pairID
+          };
+          this.socket.emit("exchangeRole", socketData);
+        }
     },
 }
 </script>
