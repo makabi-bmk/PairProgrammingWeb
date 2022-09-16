@@ -2,6 +2,7 @@ const express = require('express')();
 const server = require('http').createServer(express);
 
 var socketDict = {};
+var pairDict = {};
 
 // const cors = require('cors')
 const io = require('socket.io')(server, {
@@ -34,7 +35,9 @@ io.on('connection', socket => {
   socket.on('check_pair', msg=> {
     console.log("pair");
     console.log(msg);
+    const studentID = msg['studentID'];
     const pairID = msg['pairID'];
+    pairDict[studentID] = pairID;
     var param = {};
     if (pairID in socketDict) {
       // param['ready'] = true;
@@ -63,8 +66,13 @@ io.on('connection', socket => {
       var id = socket.id;
       var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);
       if (result != null) {
+        console.log('result = ' + result);
+        console.log(pairDict[result]);
+        console.log(socketDict[pairDict[result]]);
+        io.to(socketDict[pairDict[result]]).emit('check_pair', {});
         delete socketDict[result];
-        console.log(result + 'was disconnected');
+        delete pairDict[result];
+        console.log(result + ' was disconnected');
       }
   });
 

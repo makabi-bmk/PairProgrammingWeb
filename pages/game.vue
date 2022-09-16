@@ -227,11 +227,17 @@ export default {
         //     this.msgs.push(msg);
         // });
         this.socket.on("check_pair", msg => {
+          console.log('check_pair');
             console.log(msg);
 
-            var socketData = {
-              level : 1
-            };
+            if (Object.keys(msg).length == 0) {
+              this.modalMessage = 'ペアを待っています…';
+              this.resultStatus = 'loading';
+              this.modalFlag = true;
+            } else {
+              var socketData = {
+                level : 1
+              };
 
             if (msg['role'] === '探検係') {
               console.log('get question');
@@ -242,9 +248,11 @@ export default {
               this.resultStatus = 'start';
               this.modalMessage = 'ゲームスタート！あなたは' + msg['role'] + 'です';
               this.modalFlag = false;
+            }
         });
         this.socket.on("join", _ => {
           var socketData = {
+            studentID: this.studentID,
             pairID : this.pairID
           };
           this.socket.emit("check_pair", socketData);
