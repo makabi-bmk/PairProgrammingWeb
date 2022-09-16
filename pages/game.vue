@@ -24,7 +24,9 @@
 
   <!-- <div class="map"> -->
     <div v-if="role==='探検係'">
-    <img class="map view" src="../static/road.png" />
+      <img v-if="roadView===0" class="map view" src="../static/road.png" />
+      <img v-if="roadView===1" class="map view" src="../static/road_square.png" />
+      <img v-if="roadView===2" class="map view" src="../static/road_triangle.png" />
   <!-- </div> -->
   <!-- <div class="map"> -->
     <Map class="map" :cells="cells"></Map>
@@ -173,9 +175,9 @@ export default {
 },
     data() {
         return {
-            a: this.$store.state.classID,
-            b: this.$store.state.pair_num,
-            c: this.$store.state.pairID,
+            // a: this.$store.state.classID,
+            // b: this.$store.state.pair_num,
+            // c: this.$store.state.pairID,
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
             msg: "",
@@ -186,6 +188,8 @@ export default {
             resultStatus: "loading",
             locate: [0,0],
             role: '',
+            questionNum: [0, 0],
+            roadView: 0,
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -217,12 +221,18 @@ export default {
         this.$router.push("/login");
       } else {
         this.socket = io("http://localhost:3001");
-        this.socket.on("new-msg", msg => {
-            console.log(msg);
-            this.msgs.push(msg);
-        });
+        // this.socket.on("new-msg", msg => {
+        //     console.log(msg);
+        //     this.msgs.push(msg);
+        // });
         this.socket.on("check_pair", msg => {
             console.log(msg);
+
+            var socketData = {
+              level : 1
+            };
+            this.socket.emit("updateQuestion", socketData);
+
             this.role = msg['role'];
               this.resultStatus = 'start';
               this.modalMessage = 'ゲームスタート！あなたは' + msg['role'] + 'です';
@@ -233,6 +243,10 @@ export default {
             pairID : this.pairID
           };
           this.socket.emit("check_pair", socketData);
+        });
+        this.socket.on("updateQuestion", msg => {
+          console.log("updateQuestion");
+          console.log(msg);
         });
 
         var socketData = {
@@ -249,20 +263,20 @@ export default {
       this.socket.emit("close", socketData);
     },
     methods: {
-        sendMessage() {
-            this.msg = this.msg.trim();
-            if (this.msg) {
-                const message = {
-                    name: this.socket.id,
-                    text: this.msg,
-                };
-                // イベント元はブロードキャストを受けないので自分でmessageを追加する
-                this.msgs.push(message);
-                // send-msgイベントでmessageをサーバーサイドに投げる
-                this.socket.emit("send-msg", message);
-                this.msg = "";
-            }
-        },
+        // sendMessage() {
+        //     this.msg = this.msg.trim();
+        //     if (this.msg) {
+        //         const message = {
+        //             name: this.socket.id,
+        //             text: this.msg,
+        //         };
+        //         // イベント元はブロードキャストを受けないので自分でmessageを追加する
+        //         this.msgs.push(message);
+        //         // send-msgイベントでmessageをサーバーサイドに投げる
+        //         this.socket.emit("send-msg", message);
+        //         this.msg = "";
+        //     }
+        // },
         ho(a) {
           alert(a);
         },
@@ -286,6 +300,12 @@ export default {
                   
                     this.locate[0] = present[0];
                     this.locate[1] = present[1];
+                    this.cells.splice();
+
+
+                    console.log(Question.road);
+                    this.roadView = Question.road[this.questionNum[0]][this.questionNum[1]][this.locate[0]][this.locate[1]];
+
                 // switch(this.ans[present[0]][present[1]]) {
                 //   // case 0:
                 //   //   this.cells[present[0]][present[1]] = 2;
@@ -305,11 +325,12 @@ export default {
                 //   // this.cells[present[0]][present[1]] = 3;
                 //   // break;
                 // }
-                this.cells.splice();
+                
           }
         },
         research() {
-          if(this.ans[this.locate[0]][this.locate[1]] == 2) {
+          const ans = Question.ans[this.questionNum[0]][this.questionNum[1]];
+          if(this.locate[0] == ans[0] && this.locate[1] == ans[1]) {
             this.resultStatus = 'goal';
             this.modalMessage = "せいこう！";
           } else {

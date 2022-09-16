@@ -52,8 +52,11 @@ io.on('connection', socket => {
   socket.on('updateQuestion', msg=> {
     const pairID = msg['pairID'];
     var param = {};
-    var num = 1;
-    socket.emit(pairID).emit('');
+    var num = [msg['level'], Math.floor(Math.random() * 14)];
+    param['num'] = num;
+
+    io.to(socket.id).emit('updateQuestion', param);
+    io.to(pairID).emit('updateQuestion', param);
   });
 
 
