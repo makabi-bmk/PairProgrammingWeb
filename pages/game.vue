@@ -62,7 +62,7 @@
     </div>
 
     <div v-if="role==='案内係'">
-      <img id="question_img" src="../static/question/1-1.png" />
+      <img id="question_img" :src="questionSrc" />
     </div>
 
     <Modal v-if="modalFlag">
@@ -190,6 +190,7 @@ export default {
             role: '',
             questionNum: [0, 0],
             roadView: 0,
+            questionSrc: '../static/question/1-1.png',
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -247,6 +248,12 @@ export default {
         this.socket.on("updateQuestion", msg => {
           console.log("updateQuestion");
           console.log(msg);
+
+          this.questionNum[0] = (msg['num'])[0];
+          this.questionNum[1] = (msg['num'])[1];
+
+          this.questionSrc = '../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png';
+          console.log(this.questionSrc);
         });
 
         var socketData = {
