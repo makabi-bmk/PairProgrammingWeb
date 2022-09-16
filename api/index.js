@@ -63,7 +63,7 @@ io.on('connection', socket => {
       console.log('disconnect');
       var id = socket.id;
       var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);
-      print(result);
+      console.log(result);
   });
 
 
