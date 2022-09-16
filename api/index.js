@@ -60,10 +60,12 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-      console.log('disconnect');
       var id = socket.id;
       var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);
-      console.log(result);
+      if (result != null) {
+        delete socketDict[result];
+        console.log(result + 'was disconnected');
+      }
   });
 
 

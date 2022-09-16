@@ -232,8 +232,12 @@ export default {
             var socketData = {
               level : 1
             };
-            this.socket.emit("updateQuestion", socketData);
 
+            if (msg['role'] === '探検係') {
+              console.log('get question');
+              this.socket.emit("updateQuestion", socketData);
+            }
+            
             this.role = msg['role'];
               this.resultStatus = 'start';
               this.modalMessage = 'ゲームスタート！あなたは' + msg['role'] + 'です';
@@ -253,7 +257,7 @@ export default {
           this.questionNum[1] = (msg['num'])[1];
 
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
-          console.log(this.questionSrc);
+          // console.log(this.questionSrc);
         });
 
         var socketData = {
@@ -288,7 +292,7 @@ export default {
           alert(a);
         },
         move(direction) {
-          console.log(this.cells);
+          // console.log(this.cells);
           var present = [this.locate[0], this.locate[1]];
 
           if (direction === 'up') {
@@ -310,8 +314,9 @@ export default {
                     this.cells.splice();
 
 
-                    console.log(Question.road);
-                    this.roadView = Question.road[this.questionNum[0]][this.questionNum[1]][this.locate[0]][this.locate[1]];
+                    // console.log(Question.road[this.questionNum[0]][this.questionNum[1]]);
+                    // console.log()
+                    this.roadView = Question.road[this.questionNum[0] - 1][this.questionNum[1]][this.locate[0]][this.locate[1]];
 
                 // switch(this.ans[present[0]][present[1]]) {
                 //   // case 0:
