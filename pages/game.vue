@@ -73,8 +73,8 @@
       <div>{{modalMessage}}</div>
 
       <v-btn v-if="resultStatus==='start'" @click="modalFlag=false">ゲームスタート</v-btn>
-      <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateSubject()">つぎにすすむ</v-btn>
-      <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetSubject()">もういちど</v-btn>
+      <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateQuestion()">つぎにすすむ</v-btn>
+      <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetQuestion()">もういちど</v-btn>
 
       <!-- <a href="./login-teacher">閉じる</a> -->
   </Modal>
@@ -350,7 +350,8 @@ export default {
           }
         },
         research() {
-          const ans = Question.ans[this.questionNum[0]][this.questionNum[1]];
+          const ans = Question.ans[this.questionNum[0] - 1][this.questionNum[1]];
+          console.log(ans);
           if(this.locate[0] == ans[0] && this.locate[1] == ans[1]) {
             this.resultStatus = 'goal';
             this.modalMessage = "せいこう！";
@@ -360,10 +361,20 @@ export default {
           }
           this.modalFlag = true;
         },
-        updateSubject() {
+        updateQuestion() {
+          var socketData = {
+                pairID : this.pairID,
+                level : 1
+          };
 
+            // if (msg['role'] === '探検係') {
+              // console.log('get question');
+              this.socket.emit("updateQuestion", socketData);
+
+              resetQuestion();
+            
         },
-        resetSubject() {
+        resetQuestion() {
           this.locate[0] = 0;
           this.locate[1] = 0;
           this.cells =  [
