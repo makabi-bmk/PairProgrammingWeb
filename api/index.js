@@ -59,7 +59,7 @@ io.on('connection', socket => {
     param['num'] = num;
 
     io.to(socket.id).emit('updateQuestion', param);
-    io.to(pairID).emit('updateQuestion', param);
+    io.to(socketDict[pairID]).emit('updateQuestion', param);
   });
 
   socket.on('disconnect', () => {

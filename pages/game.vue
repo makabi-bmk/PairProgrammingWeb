@@ -236,6 +236,7 @@ export default {
               this.modalFlag = true;
             } else {
               var socketData = {
+                pairID : this.pairID,
                 level : 1
               };
 
