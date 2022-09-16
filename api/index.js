@@ -59,13 +59,20 @@ io.on('connection', socket => {
     io.to(pairID).emit('updateQuestion', param);
   });
 
+  socket.on('disconnect', () => {
+      console.log('disconnect');
+      var id = socket.id;
+      var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);
+      print(result);
+  });
+
 
   // send-msgイベントを受け取ったらブロードキャストする
-  socket.on('send-msg', msg => {
-    socket.emit('new-msg', msg);
-    socket.broadcast.emit('new-msg', msg);
-    console.log(`receive message: ${JSON.stringify(msg)}`);
-  });
+  // socket.on('send-msg', msg => {
+  //   socket.emit('new-msg', msg);
+  //   socket.broadcast.emit('new-msg', msg);
+  //   console.log(`receive message: ${JSON.stringify(msg)}`);
+  // });
 
 });
 
