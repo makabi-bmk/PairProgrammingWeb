@@ -325,7 +325,7 @@ export default {
                     this.cells.splice();
 
 
-                    // console.log(Question.road[this.questionNum[0]][this.questionNum[1]]);
+                    console.log(Question.road[this.questionNum[0] - 1][this.questionNum[1]]);
                     // console.log()
                     this.roadView = Question.road[this.questionNum[0] - 1][this.questionNum[1]][this.locate[0]][this.locate[1]];
 
@@ -366,7 +366,7 @@ export default {
         updateQuestion() {
           var socketData = {
                 pairID : this.pairID,
-                level : 1
+                level : Math.floor(Math.random() * 4)
           };
 
             // if (msg['role'] === '探検係') {
