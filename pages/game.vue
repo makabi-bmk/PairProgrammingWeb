@@ -222,7 +222,7 @@ export default {
       if (this.studentID == '') {
         this.$router.push("/login");
       } else {
-        this.socket = io("http://ict-edu.okinawa-ct.ac.jp/?server");
+        this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
         // this.socket.on("new-msg", msg => {
         //     console.log(msg);
         //     this.msgs.push(msg);
