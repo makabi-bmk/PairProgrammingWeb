@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p v-if="User != null">Your e-mail is {{ User.email }}</p>
+    <!-- <p v-if="User != null">Your e-mail is {{ User.email }}</p> -->
     <button @click="logout">Logout</button>
-    <h2>User Profile</h2>
+    <!-- <h2>{User Profile}</h2> -->
 
           <!-- <h2>検索結果</h2> -->
 

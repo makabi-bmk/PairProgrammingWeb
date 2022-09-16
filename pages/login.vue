@@ -160,6 +160,7 @@
         })
       })
       console.log('成功しました')
+      this.$router.push("/home");
     },
     },
   }
