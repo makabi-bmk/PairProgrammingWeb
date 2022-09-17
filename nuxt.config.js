@@ -4,9 +4,9 @@ require('dotenv').config()
 
 export default {
 
-  serverMiddleware: {
-    'api': '~/api'
-  },
+  // serverMiddleware: {
+  //   'api': '~/api'
+  // },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
