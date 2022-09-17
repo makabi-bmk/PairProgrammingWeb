@@ -7,14 +7,16 @@ const REQUEST = {
     join: 'join',
 };
 
+
+
 parentPort.on('message', async msg => {
     console.log('worker received: %o', msg);
 
     const {action, args} = msg;
 
     if (action === REQUEST.join) {
-        const studentID = msg['studentID'];
-        socketDict[studentID] = msg['socketID'];
+        const studentID = args['studentID'];
+        socketDict[studentID] = args['socketID'];
         console.log(socketDict);
         parentPort.postMessage({
             action : 'join',
@@ -30,3 +32,5 @@ parentPort.on('message', async msg => {
     process.exit();
     
 });
+
+// export {REQUEST};

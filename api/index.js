@@ -1,3 +1,5 @@
+// import {REQUEST} from '../worker.js';
+
 const express = require('express')();
 const server = require('http').createServer(express);
 const {Worker} = require('worker_threads');
@@ -19,8 +21,11 @@ const io = require('socket.io')(server, {
 
 worker.on('message', msg => {
   const {action, args} = msg;
-  const studentID = msg['studentID'];
-  io.to(studentID).emit('join', {});
+
+  if (action === 'join') {
+      var studentID = args['studentID'];
+      io.to(studentID).emit('join', {});
+  }
 });
 
 io.on('connection', socket => {
