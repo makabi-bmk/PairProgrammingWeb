@@ -2,8 +2,8 @@
 
 const express = require('express')();
 const server = require('http').createServer(express);
-const {Worker} = require('worker_threads');
-const worker = new Worker('./worker.js');
+const {Worker} = require('node:worker_threads');
+const worker = new Worker('./api/worker.js');
 
 // var socketDict = {};
 // var pairDict = {};
