@@ -1,5 +1,7 @@
 const express = require('express')();
 const server = require('http').createServer(express);
+const {Worker} = require('worker_threads');
+const worker = new Worker('./worker.js');
 
 var socketDict = {};
 var pairDict = {};
@@ -7,22 +9,36 @@ var pairDict = {};
 // const cors = require('cors')
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://ict-edu.okinawa-ct.ac.jp",
+        // origin: "http://ict-edu.okinawa-ct.ac.jp",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         allowHeaders: [""]
         // credentials: rue
     }
-})
+});
+
+worker.on('message', msg => {
+  const {action, args} = msg;
+  const studentID = msg['studentID'];
+  io.to(studentID).emit('join', {});
+});
 
 io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)
 
   socket.on('join', msg=> {
-    const studentID = msg['studentID'];
-    socketDict[studentID] = socket.id;
-    console.log(socketDict);
+    worker.postMessage({
+      action: 'join',
+      args: {
+        studentID : msg['studentID'],
+        socketID  : socket.id,
+      }
+    });
+    // const studentID = msg['studentID'];
+    // socketDict[studentID] = socket.id;
+    // console.log(socketDict);
     // const param = {};
-    io.to(socket.id).emit('join', {});
+    // io.to(socket.id).emit('join', {});
   });
 
   socket.on('close', msg=> {
