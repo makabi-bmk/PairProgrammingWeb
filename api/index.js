@@ -41,7 +41,7 @@ if (cluster.isMaster) {
 
   const io = new Server(httpServer, {
     cors: {
-        origin: "http://ict-edu.okinawa-ct.ac.jp",
+        origin: "http://ict-edu.okinawa-ct.ac.jp:3000",
         // origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         // allowHeaders: [""]
