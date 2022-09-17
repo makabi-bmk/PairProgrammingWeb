@@ -131,43 +131,50 @@ import Question from '~/components/Question';
 import Modal from '~/components/Modal.vue';
 import Pages from './index.vue';
 
-/*
-var question = [
-    [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ],
-    [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ],
-    [[5, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ],
-];
-*/
+const REQUEST = {
+  join : 'join',
+  close: 'close',
+  check_pair: 'check_pair',
+  update_question: 'update_question',
+  exchange_role: 'exchange_role',
+  disconnect: 'disconnect'
+};
+
+// var question = [
+//     [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     ],
+//     [[5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     ],
+//     [[5, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     ],
+// ];
 
 export default {
   components: {
@@ -176,9 +183,6 @@ export default {
 },
     data() {
         return {
-            // a: this.$store.state.classID,
-            // b: this.$store.state.pair_num,
-            // c: this.$store.state.pairID,
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
             msg: "",
@@ -228,8 +232,8 @@ export default {
         //     console.log(msg);
         //     this.msgs.push(msg);
         // });
-        this.socket.on("check_pair", msg => {
-          console.log('check_pair');
+        this.socket.on(REQUEST.check_pair, msg => {
+          console.log(REQUEST.check_pair);
             console.log(msg);
 
             if (Object.keys(msg).length == 0) {
@@ -244,7 +248,7 @@ export default {
 
             if (msg['role'] === '探検係') {
               console.log('get question');
-              this.socket.emit("updateQuestion", socketData);
+              this.socket.emit(REQUEST.update_question, socketData);
             }
             
             this.role = msg['role'];
@@ -253,15 +257,16 @@ export default {
               this.modalFlag = true;
             }
         });
-        this.socket.on("join", _ => {
+        this.socket.on(REQUEST.join, _ => {
+          console.log('joined');
           var socketData = {
             studentID: this.studentID,
             pairID : this.pairID
           };
-          this.socket.emit("check_pair", socketData);
+          this.socket.emit(REQUEST.check_pair, socketData);
         });
-        this.socket.on("updateQuestion", msg => {
-          console.log("updateQuestion");
+        this.socket.on(REQUEST.update_question, msg => {
+          console.log(REQUEST.update_question);
           console.log(msg);
 
           this.questionNum[0] = (msg['num'])[0];
@@ -271,11 +276,7 @@ export default {
           // console.log(this.questionSrc);
         });
         
-
-        var socketData = {
-          studentID : this.studentID
-        };
-        this.socket.emit("join", socketData);
+        this.socket.emit(REQUEST.join, {studentID: this.studentID});
       }
     },
     beforeDestroyed() {
@@ -283,7 +284,7 @@ export default {
       const socketData = {
           studentID : this.$store.state.studentID
       };
-      this.socket.emit("close", socketData);
+      this.socket.emit(REQUEST.close, socketData);
     },
     methods: {
         // sendMessage() {
@@ -365,14 +366,12 @@ export default {
           this.modalFlag = true;
         },
         updateQuestion() {
-          var socketData = {
-                pairID : this.pairID,
-                level : Math.floor(Math.random() * 4)
-          };
-
             // if (msg['role'] === '探検係') {
               // console.log('get question');
-              this.socket.emit("updateQuestion", socketData);
+              this.socket.emit(REQUEST.update_question, {
+                pairID : this.pairID,
+                level : Math.floor(Math.random() * 4)
+              });
 
               this.resetQuestion();
             
@@ -395,11 +394,7 @@ export default {
           this.cells.splice();
         },
         exchangeRole() {
-          const socketData = {
-            // studentID : this.$store.state.studentID,
-            pairID : this.pairID
-          };
-          this.socket.emit("exchangeRole", socketData);
+          this.socket.emit(REQUEST.exchange_role, {pairID: this.pairID});
         }
     },
 }
