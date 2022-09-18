@@ -5,15 +5,17 @@ var socketDict = {};
 var pairDict = {};
 
 // const cors = require('cors')
-const io = require('socket.io')(server, {
-    cors: {
-        // origin: "http://ict-edu.okinawa-ct.ac.jp",
-        origin: '*',
-        methods: ["GET", "POST"],
-        allowHeaders: [""]
-        // credentials: rue
-    }
-})
+// const io = require('socket.io')(server, {
+//     cors: {
+//         // origin: "http://ict-edu.okinawa-ct.ac.jp",
+//         origin: '*',
+//         methods: ["GET", "POST"],
+//         allowHeaders: [""]
+//         // credentials: rue
+//     }
+// })
+
+const io = require('socket.io');
 
 io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)

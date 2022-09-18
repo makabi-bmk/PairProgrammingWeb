@@ -6,7 +6,7 @@ module.exports = {
         instances: 'max', // Or a number of instances
         script: './node_modules/nuxt/bin/nuxt.js',
         watch: true,
-        ignore_watch: [".git/index.lock", "logs", "public", "node_modules", "[\\/\\\\]\\./","pids", ".git", ".idea"],
+        // ignore_watch: [".git/index.lock", "logs", "public", "node_modules", "[\\/\\\\]\\./","pids", ".git", ".idea"],
         args: 'start'
       }
     ]
