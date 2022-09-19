@@ -60,6 +60,8 @@ io.on('connection', socket => {
     const studentID = msg['studentID'];
     const pairID = msg['pairID'];
     pairDict[studentID] = pairID;
+    console.log(pairDict);
+    console.log(socketDict);
     // var param = {};
     if (pairID in socketDict) {
       // param['ready'] = true;

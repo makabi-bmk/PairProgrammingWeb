@@ -8,8 +8,10 @@
 
   <h1>{{class_name}}</h1>
   <p>{{student_name}}さん</p>
+  <p>ペア：{{pair_name}}さん</p>
   <p>ペア番号：{{pair_num}}</p>
   <v-btn @click="gameStart">ゲームスタート</v-btn>
+
 
   <!-- <v-card v-if="isSuccessLogin">
     <v-form ref="form" v-model="valid">
@@ -23,14 +25,14 @@
     <Modal v-if="modalFlag">
       <img id="search" v-if="User != null" src="../static/serarch.png" />
       <div>{{modalMessage}}</div>
-      <v-text-field
+      <!-- <v-text-field
             v-model="classID"
             label="クラスを検索"
-            placeholder="先生から聞いたクラス名を入力しよう"
+            placeholder="読込中"
             outlined
             dense
-          ></v-text-field>
-          <v-btn class="primary" @click="login">検索</v-btn>
+          ></v-text-field> -->
+          <!-- <v-btn class="primary" @click="login">検索</v-btn> -->
   </Modal>
   </div>
 </template>
@@ -55,6 +57,7 @@ export default {
       class_name: '',
       student_name: '',
       pair_num: '',
+      pair_name: '',
       stundentID : this.$store.state.studentID,
       classID: this.$store.state.classID,
     }
@@ -128,6 +131,7 @@ export default {
               if((snapshot.val())[ID]["pair_num"] == this.pair_num) {
                 var pairID = (snapshot.val())[ID]["student_name"];
                 console.log("Your pair is " + pairID);
+                this.pair_name = pairID;
                 this.$store.commit('SET_PAIR', ID);
               }
             }
@@ -141,6 +145,8 @@ export default {
       this.modalFlag = false;
     },
     gameStart() {
+      this.modalMessage = '読込中…';
+      this.modalFlag = true;
       this.$router.push("/game");
     }
   }

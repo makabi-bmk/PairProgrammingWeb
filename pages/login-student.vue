@@ -174,6 +174,10 @@ export default {
       pwRules: [(v) => !!v || "password is required"],
     };
   },
+  mounted() {
+    this.$store.commit('SET_STUDENT', null);
+    this.$store.commit('SET_CLASS', null);
+  },
   methods: {
     login() {
       this.$fire.database.ref(this.classID + '/students/' + this.studentID).on('value', (snapshot) => {
