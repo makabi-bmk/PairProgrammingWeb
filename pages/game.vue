@@ -141,6 +141,7 @@ export default {
             // c: this.$store.state.pairID,
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
+
             msg: "",
             msgs: [],
             socket: "",
@@ -306,7 +307,7 @@ export default {
         updateQuestion() {
           this.endTime = performance.now();
               this.socket.emit("updateQuestion", {
-                classID: this.classID,
+                classID: this.$store.state.classID,
                 studentID: this.studentID,
                 pairID: this.pairID,
                 questionNum: this.questionNum,
