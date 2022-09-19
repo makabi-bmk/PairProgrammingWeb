@@ -304,6 +304,7 @@ export default {
           this.endTime = performance.now();
               this.socket.emit("updateQuestion", {
                 pairID: this.pairID,
+                questionNum: this.questionNum,
                 level: Math.floor(Math.random() * 4) + 1,
                 interval: this.endTime - this.startTime,
                 hint: this.hintFlag,
