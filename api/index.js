@@ -1,9 +1,8 @@
 const express = require('express')();
 const server = require('http').createServer(express);
 
-// const date = new Date();
 const nowTime = Date.now();
-const logName = nowTime + '.log';
+const logName = './log/' + nowTime + '.log';
 const fs = require('fs');
 
 var socketDict = {};
@@ -21,7 +20,7 @@ const io = require('socket.io')(server, {
 });
 
 try {
-  fs.writeFileSync('./' + logName, 'test', 'utf-8');
+  fs.writeFileSync(logName, 'test', 'utf-8');
 } catch(err) {
   console.log(err);
 }
@@ -32,7 +31,6 @@ io.on('connection', socket => {
   socket.on('join', msg=> {
     const studentID = msg['studentID'];
     socketDict[studentID] = socket.id;
-    console.log(socketDict);
     // const param = {};
     io.to(socket.id).emit('join', {});
   });
@@ -40,13 +38,10 @@ io.on('connection', socket => {
   socket.on('close', msg=> {
     const studentID = msg['studentID'];
     delete socketDict[studentID];
-    console.log("delete");
-    console.log(socketDict);
   });
 
   socket.on('check_pair', msg=> {
     console.log("pair");
-    console.log(msg);
     const studentID = msg['studentID'];
     const pairID = msg['pairID'];
     pairDict[studentID] = pairID;
@@ -58,10 +53,6 @@ io.on('connection', socket => {
       param['role'] = '探検係';
       io.to(socket.id).emit('check_pair', param);
     }
-    // } else {
-    //   // param['ready'] = false;
-    // }
-    // io.to(socket.id).emit('check_pair', param);
   });
 
   socket.on('updateQuestion', msg=> {
@@ -77,7 +68,6 @@ io.on('connection', socket => {
 
   socket.on('exchangeRole', msg=> {
     const pairID = msg['pairID'];
-    console.log(pairID);
     var param = {};
 
     param['role'] = '案内係';
@@ -88,11 +78,9 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
       var id = socket.id;
+      //TODO: ここ全探じゃなくて別で値逆のリスト用意して動かす
       var result = Object.keys(socketDict).reduce(function(r, k) {return socketDict[k] == id ? k : r}, null);
       if (result != null) {
-        console.log('result = ' + result);
-        console.log(pairDict[result]);
-        console.log(socketDict[pairDict[result]]);
         io.to(socketDict[pairDict[result]]).emit('check_pair', {});
         delete socketDict[result];
         delete pairDict[result];
@@ -113,7 +101,7 @@ io.on('connection', socket => {
 function wrieteLog() {
   var log = 'aiueo';
   try {
-    fs.appendFileSync('./' + logName, log, 'utf-8');
+    fs.appendFileSync(logName, log, 'utf-8');
   } catch(err) {
     console.log(err);
   }
