@@ -306,6 +306,8 @@ export default {
         updateQuestion() {
           this.endTime = performance.now();
               this.socket.emit("updateQuestion", {
+                classID: this.classID,
+                studentID: this.studentID,
                 pairID: this.pairID,
                 questionNum: this.questionNum,
                 level: Math.floor(Math.random() * 4) + 1,
