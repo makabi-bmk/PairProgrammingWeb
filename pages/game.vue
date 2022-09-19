@@ -63,10 +63,11 @@
 
     <div v-if="role==='案内係'">
       <img id="question_img" :src="questionSrc" />
+      <!-- <img id="question_img" :src="hintSrc" /> -->
       <v-btn @click="showHint()">ヒントを見せる</v-btn>
       <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
       <v-btn @click="passQuestion()">この問題をパスする</v-btn>
-      <img id="hint_img" v-if="hintFlag===true" class="map view" src="../static/road.png" />
+      <img id="hint_img" v-if="hintFlag===true" class="map view" :src="hintSrc" />
     </div>
 
     <Modal v-if="modalFlag">
@@ -158,6 +159,7 @@ export default {
             questionNum: [0, 0],
             roadView: 0,
             questionSrc: require('../static/question/1-1.png'),
+            hintSrc: require('../static/hint/1-1.png'),
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -233,7 +235,9 @@ export default {
           this.questionNum[0] = (msg['num'])[0];
           this.questionNum[1] = (msg['num'])[1];
 
+          this.hintFlag = false;
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
+          this.hintSrc     = require('../static/hint/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           // console.log(this.questionSrc);
         });
         
@@ -364,8 +368,12 @@ export default {
           this.socket.emit("exchangeRole", {pairID : this.pairID});
         },
         passQuestion() {
-          this.exchangeRole();
-        }
+          this.updateQuestion();
+        },
+        showHint() {
+          console.log('ヒント押された');
+          this.hintFlag = true;
+        },
     },
 }
 </script>
