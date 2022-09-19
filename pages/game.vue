@@ -34,12 +34,19 @@
     </div>
 
     <div v-if="role==='案内係'">
-      <img id="question_img" :src="questionSrc" />
-      <!-- <img id="question_img" :src="hintSrc" /> -->
-      <v-btn @click="showHint()">ヒントを見せる</v-btn>
-      <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
-      <v-btn @click="passQuestion()">この問題をパスする</v-btn>
-      <img id="hint_img" v-if="hintFlag===true" class="map view" :src="hintSrc" />
+      <table id="navigator_view">
+        <tr>
+          <th colspan="2">
+            <v-btn @click="showHint()">ヒントを見せる</v-btn>
+            <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
+            <v-btn @click="passQuestion()">この問題をパスする</v-btn>
+          </th>
+        </tr>
+        <tr>
+          <th><img id="question_img" :src="questionSrc" /></th>
+          <th><img id="hint_img" v-if="hintFlag===true" class="map view" :src="hintSrc" /></th>
+        </tr>
+      </table>
     </div>
 
     <Modal v-if="modalFlag">
@@ -76,6 +83,18 @@
 }
 #question_img {
   height: 60vh;
+  width: 60vh;
+  border: solid #459BAB;
+}
+#hint_img {
+  width: 60vh;
+  border: solid #459BAB;
+}
+#navigator_view {
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 3vh;
+  /* padding: 50px; */
 }
 .area {
   background-color: black;
