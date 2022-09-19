@@ -25,6 +25,21 @@ try {
   console.log(err);
 }
 
+async function myAsync(log) {
+  await wrieteLog(log);
+}
+
+function wrieteLog(log) {
+  return new Promise(function(resolve) {
+    try {
+      // console.log(log);
+      fs.appendFileSync(logName, log + '\n', 'utf-8');
+    } catch(err) {
+      console.log(err);
+    }
+  })
+}
+
 io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)
 
@@ -69,7 +84,8 @@ io.on('connection', socket => {
 
     io.to(socket.id).emit('updateQuestion', param);
     io.to(socketDict[pairID]).emit('updateQuestion', param);
-    wrieteLog(JSON.stringify(msg));
+
+    myAsync(JSON.stringify(msg));
   });
 
   socket.on('exchangeRole', msg=> {
@@ -99,15 +115,5 @@ io.on('connection', socket => {
       }
   });
 });
-
-function wrieteLog(log) {
-  const time = Date.now();
-  // var log = 'aiueo';
-  try {
-    fs.appendFileSync(logName, log + '\n', 'utf-8');
-  } catch(err) {
-    console.log(err);
-  }
-}
 
 server.listen(3001);
