@@ -1,6 +1,11 @@
 const express = require('express')();
 const server = require('http').createServer(express);
 
+// const date = new Date();
+const nowTime = Date.now();
+const logName = nowTime + '.log';
+const fs = require('fs');
+
 var socketDict = {};
 var pairDict = {};
 
@@ -13,7 +18,13 @@ const io = require('socket.io')(server, {
         allowHeaders: [""]
         // credentials: rue
     }
-})
+});
+
+try {
+  fs.writeFileSync('./' + logName, 'test', 'utf-8');
+} catch(err) {
+  console.log(err);
+}
 
 io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)
@@ -59,6 +70,7 @@ io.on('connection', socket => {
     var num = [msg['level'], (Math.floor(Math.random() * 13) + 1)];
     param['num'] = num;
 
+    wrieteLog();
     io.to(socket.id).emit('updateQuestion', param);
     io.to(socketDict[pairID]).emit('updateQuestion', param);
   });
@@ -98,5 +110,13 @@ io.on('connection', socket => {
 
 });
 
+function wrieteLog() {
+  var log = 'aiueo';
+  try {
+    fs.appendFileSync('./' + logName, log, 'utf-8');
+  } catch(err) {
+    console.log(err);
+  }
+}
 
 server.listen(3001);
