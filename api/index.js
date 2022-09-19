@@ -45,13 +45,19 @@ io.on('connection', socket => {
     const studentID = msg['studentID'];
     const pairID = msg['pairID'];
     pairDict[studentID] = pairID;
-    var param = {};
+    // var param = {};
     if (pairID in socketDict) {
       // param['ready'] = true;
-      param['role'] = '案内係';
-      io.to(socketDict[pairID]).emit('check_pair', param);
-      param['role'] = '探検係';
-      io.to(socket.id).emit('check_pair', param);
+      // param['role'] = '案内係';
+      io.to(socketDict[pairID]).emit('check_pair', {
+        role: '案内係',
+        exchange: false,
+      });
+      // param['role'] = '探検係';
+      io.to(socket.id).emit('check_pair', {
+        role: '探検係',
+        exchange: false,
+      });
     }
   });
 
@@ -61,19 +67,24 @@ io.on('connection', socket => {
     var num = [msg['level'], (Math.floor(Math.random() * 13) + 1)];
     param['num'] = num;
 
-    wrieteLog();
     io.to(socket.id).emit('updateQuestion', param);
     io.to(socketDict[pairID]).emit('updateQuestion', param);
+    wrieteLog(JSON.stringify(msg));
   });
 
   socket.on('exchangeRole', msg=> {
     const pairID = msg['pairID'];
-    var param = {};
 
-    param['role'] = '案内係';
-    io.to(socketDict[pairID]).emit('check_pair', param);
-    param['role'] = '探検係';
-    io.to(socket.id).emit('check_pair', param);
+    // param['role'] = '案内係';
+    io.to(socketDict[pairID]).emit('check_pair', {
+      exchange: true,
+      role: '案内係',
+    });
+    // param['role'] = '探検係';
+    io.to(socket.id).emit('check_pair', {
+      exchange: true,
+      role: '探検係',
+    });
   });
 
   socket.on('disconnect', () => {
@@ -87,21 +98,13 @@ io.on('connection', socket => {
         console.log(result + ' was disconnected');
       }
   });
-
-
-  // send-msgイベントを受け取ったらブロードキャストする
-  // socket.on('send-msg', msg => {
-  //   socket.emit('new-msg', msg);
-  //   socket.broadcast.emit('new-msg', msg);
-  //   console.log(`receive message: ${JSON.stringify(msg)}`);
-  // });
-
 });
 
-function wrieteLog() {
-  var log = 'aiueo';
+function wrieteLog(log) {
+  const time = Date.now();
+  // var log = 'aiueo';
   try {
-    fs.appendFileSync(logName, log, 'utf-8');
+    fs.appendFileSync(logName, log + '\n', 'utf-8');
   } catch(err) {
     console.log(err);
   }

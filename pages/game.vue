@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <p>{{questionNum[0]}}-{{questionNum[1]}}</p>
   <!-- <div class="map"> -->
     <div v-if="role==='探検係'">
       <img v-if="roadView===0" class="map view" src="../static/road.png" />
@@ -147,10 +147,16 @@ export default {
             resultStatus: "loading",
             locate: [0,0],
             role: '',
+            ifFirst: true,
             questionNum: [0, 0],
             roadView: 0,
             questionSrc: require('../static/question/1-1.png'),
             hintSrc: require('../static/hint/1-1.png'),
+
+            startTime: 0,
+            endTime: 0,
+            exchange: false,
+            pass: false,
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -183,10 +189,7 @@ export default {
       } else {
         // this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
         this.socket = io("http://localhost:3001");
-        // this.socket.on("new-msg", msg => {
-        //     console.log(msg);
-        //     this.msgs.push(msg);
-        // });
+
         this.socket.on("check_pair", msg => {
           console.log('check_pair');
             console.log(msg);
@@ -196,20 +199,22 @@ export default {
               this.resultStatus = 'loading';
               this.modalFlag = true;
             } else {
-              var socketData = {
-                pairID : this.pairID,
-                level : 1
-              };
-
-            if (msg['role'] === '探検係') {
-              console.log('get question');
-              this.socket.emit("updateQuestion", socketData);
-            }
+              this.exchange = msg['exchange'];
+              if (msg['role'] === '探検係') {
+                if (!this.exchange) {
+                  console.log('get question');
+                  this.socket.emit("updateQuestion", {
+                    pairID : this.pairID,
+                    level : 1
+                  });
+                  // this.ifFirst = false;
+                }
+              }
             
-            this.role = msg['role'];
-              this.resultStatus = 'start';
-              this.modalMessage = 'あなたは' + msg['role'] + 'です';
-              this.modalFlag = true;
+              this.role = msg['role'];
+                this.resultStatus = 'start';
+                this.modalMessage = 'あなたは' + msg['role'] + 'です';
+                this.modalFlag = true;
             }
         });
         this.socket.on("join", _ => {
@@ -226,12 +231,15 @@ export default {
           this.questionNum[0] = (msg['num'])[0];
           this.questionNum[1] = (msg['num'])[1];
 
-          this.hintFlag = false;
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           this.hintSrc     = require('../static/hint/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
+
+          this.hintFlag = false;
+          this.exchange = false;
+          this.pass     = false;
+          this.startTime = performance.now();
         });
         
-
         var socketData = {
           studentID : this.studentID
         };
@@ -288,16 +296,17 @@ export default {
           this.modalFlag = true;
         },
         updateQuestion() {
-          var socketData = {
-                pairID : this.pairID,
-                level : Math.floor(Math.random() * 4) + 1
-          };
+          this.endTime = performance.now();
+              this.socket.emit("updateQuestion", {
+                pairID: this.pairID,
+                level: Math.floor(Math.random() * 4) + 1,
+                interval: this.endTime - this.startTime,
+                hint: this.hintFlag,
+                exchange: this.exchange,
+                pass: this.pass,
+              });
 
-            // if (msg['role'] === '探検係') {
-              // console.log('get question');
-              this.socket.emit("updateQuestion", socketData);
-
-              this.resetQuestion();
+          this.resetQuestion();
             
         },
         resetQuestion() {
@@ -321,6 +330,7 @@ export default {
           this.socket.emit("exchangeRole", {pairID : this.pairID});
         },
         passQuestion() {
+          this.pass = true;
           this.updateQuestion();
         },
         showHint() {
