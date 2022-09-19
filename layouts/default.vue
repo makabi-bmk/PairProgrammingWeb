@@ -29,6 +29,7 @@
       fixed
       app
     >
+    <p id="game_title">宝さがしゲーム</p>
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
         icon
@@ -87,6 +88,12 @@
     </v-footer>
   </v-app>
 </template>
+
+<style scoped>
+#game_title {
+  font-size: xx-large;
+}
+</style>
 
 <script>
 export default {

@@ -66,6 +66,9 @@
 </template>
 
 <style>
+* {
+  font-size: x-large;
+}
 #up {
   transform: rotate(270deg);
 }

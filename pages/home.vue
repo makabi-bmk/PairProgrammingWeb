@@ -38,6 +38,9 @@
 </template>
 
 <style scoped>
+* {
+  font-size: x-large;
+}
 #search {
   height: 10em;
 }
