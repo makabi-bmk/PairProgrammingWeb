@@ -6,14 +6,19 @@
 
           <!-- <h2>検索結果</h2> -->
 
-  <v-card v-if="isSuccessLogin">
+  <h1>{{class_name}}</h1>
+  <p>{{student_name}}さん</p>
+  <p>ペア番号：{{pair_num}}</p>
+  <v-btn @click="gameStart">ゲームスタート</v-btn>
+
+  <!-- <v-card v-if="isSuccessLogin">
     <v-form ref="form" v-model="valid">
       <v-card-title>{{class_name}}</v-card-title>
       <v-card-text>{{student_name}}さん<br/>
       ペア番号：{{pair_num}}</v-card-text>
       <v-btn @click="gameStart">ゲームスタート</v-btn>
     </v-form>
-  </v-card>
+  </v-card> -->
     
     <Modal v-if="modalFlag">
       <img id="search" v-if="User != null" src="../static/serarch.png" />
@@ -45,12 +50,13 @@ export default {
     return {
       User: this.$store.state.authUser,
       modalMessage: '先生からきいたクラス名を打とう！',
-      modalFlag: true,
+      modalFlag: false,
       isSuccessLogin: false,
       class_name: '',
       student_name: '',
       pair_num: '',
-      stundentID : this.$store.state.studentID
+      stundentID : this.$store.state.studentID,
+      classID: this.$store.state.classID,
     }
   },
   mounted() {
@@ -76,6 +82,7 @@ export default {
     // //               setTimeout(this.closeModal, 1500);
     // //             }
     //   });
+    this.login();
   },
   methods: {
     async logout() {

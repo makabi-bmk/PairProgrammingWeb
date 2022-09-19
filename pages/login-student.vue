@@ -186,6 +186,7 @@ export default {
                   console.log("login success")
 
                   this.$store.commit('SET_STUDENT', this.studentID);
+                  this.$store.commit('SET_CLASS', this.classID);
                   // this.$store.commit('SET_CLASS', this.classID)
                   // console.log(this.$store.state.classID)
                   // this.$store.state.classID
