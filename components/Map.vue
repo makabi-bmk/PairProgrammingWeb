@@ -25,7 +25,7 @@
 .map-enter, .map-leave-to {
     opacity: 0;
 }
-img {
+.panel {
     height: 6vh;
     padding: 0px;
     margin: 0px;

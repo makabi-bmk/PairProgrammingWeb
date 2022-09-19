@@ -44,7 +44,7 @@
         </tr>
         <tr>
           <th><img id="question_img" :src="questionSrc" /></th>
-          <th><img id="hint_img" v-if="hintFlag===true" class="map view" :src="hintSrc" /></th>
+          <th><img id="hint_img" v-if="hintFlag===true" :src="hintSrc" /></th>
         </tr>
       </table>
     </div>
@@ -82,7 +82,7 @@
   margin: 10px;
 }
 #question_img {
-  height: 60vh;
+  /* height: 60vh; */
   width: 60vh;
   border: solid #459BAB;
 }
@@ -290,7 +290,7 @@ export default {
         updateQuestion() {
           var socketData = {
                 pairID : this.pairID,
-                level : Math.floor(Math.random() * 4)
+                level : Math.floor(Math.random() * 4) + 1
           };
 
             // if (msg['role'] === '探検係') {
