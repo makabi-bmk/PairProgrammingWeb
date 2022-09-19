@@ -20,7 +20,7 @@ const io = require('socket.io')(server, {
 });
 
 try {
-  fs.writeFileSync(logName, 'test', 'utf-8');
+  fs.writeFileSync(logName, '', 'utf-8');
 } catch(err) {
   console.log(err);
 }
