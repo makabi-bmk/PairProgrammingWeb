@@ -57,7 +57,7 @@
       <div>{{modalMessage}}</div>
 
       <v-btn v-if="resultStatus==='start'" @click="modalFlag=false">ゲームスタート</v-btn>
-      <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateQuestion()">つぎにすすむ</v-btn>
+      <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateQuestion();">つぎにすすむ</v-btn>
       <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetQuestion()">もういちど</v-btn>
 
       <!-- <a href="./login-teacher">閉じる</a> -->
@@ -141,7 +141,8 @@ export default {
             // c: this.$store.state.pairID,
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
-
+            countRate: [0, 0, 0],
+            answer_i: 0,
             msg: "",
             msgs: [],
             socket: "",
@@ -155,6 +156,7 @@ export default {
             questionNum: [0, 0],
             message: 0-0,
             roadView: 0,
+            level: 1,
             questionSrc: require('../static/question/1-1.png'),
             hintSrc: require('../static/hint/1-1.png'),
 
@@ -296,6 +298,7 @@ export default {
           const ans = Question.ans[this.questionNum[0] - 1][this.questionNum[1]];
           console.log(ans);
           if(this.locate[0] == ans[0] && this.locate[1] == ans[1]) {
+            this.countWin(1);
             this.resultStatus = 'goal';
             this.modalMessage = "せいこう！";
           } else {
@@ -311,7 +314,8 @@ export default {
                 studentID: this.studentID,
                 pairID: this.pairID,
                 questionNum: this.questionNum,
-                level: Math.floor(Math.random() * 4) + 1,
+                level: this.level,
+                // level: Math.floor(Math.random() * 4) + 1,
                 interval: this.endTime - this.startTime,
                 hint: this.hintFlag,
                 exchange: this.exchange,
@@ -342,12 +346,36 @@ export default {
           this.socket.emit("exchangeRole", {pairID : this.pairID});
         },
         passQuestion() {
+          this.countWin(0);
           this.pass = true;
           this.updateQuestion();
         },
         showHint() {
           console.log('ヒント押された');
           this.hintFlag = true;
+        },
+        countWin(result) {
+          console.log(this.countRate);
+          console.log(this.answer_i);
+          this.countRate[this.answer_i] = result;
+          this.answer_i = this.answer_i + 1;
+          console.log('level' + this.level);
+          if (this.answer_i >= 3) {
+            this.answer_i = 0;
+            if (this.countRate[0] + this.countRate[1] + this.countRate[2]) {
+              if (this.level >= 4) {
+                this.level = 4;
+              } else {
+                this.level = this.level + 1;
+              }
+            } else {
+              if (this.level <= 1) {
+                this.level = 1;
+              } else {
+                this.level = this.level - 1;
+              }
+            }
+          }
         },
     },
 }
