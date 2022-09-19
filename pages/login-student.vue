@@ -42,7 +42,7 @@
           <v-btn class="primary" :disabled="!valid" @click="login">ログイン</v-btn>
         </div>
         <div class="text-center">
-          <a href="./signup">新規登録はこちら</a>
+          <!-- <a href="./signup">新規登録はこちら</a> -->
           <!-- <v-btn class="primary" :disabled="!valid">教員用ログイン</v-btn> -->
         </div>
         <!-- <p class="signUp-border-top text-center mt-6 mb-0 pt-6">
