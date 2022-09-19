@@ -37,7 +37,7 @@
       <table id="navigator_view">
         <tr>
           <th colspan="2">
-            <v-btn @click="showHint()">ヒントを見せる</v-btn>
+            <v-btn @click="showHint()">ヒントを見る</v-btn>
             <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
             <v-btn @click="passQuestion()">この問題をパスする</v-btn>
           </th>
@@ -186,7 +186,7 @@ export default {
     },
     mounted() {
       if (this.studentID == '') {
-        this.$router.push("/login");
+        this.$router.push("/login-student");
       } else {
         // this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
         this.socket = io("http://localhost:3001");

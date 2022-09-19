@@ -47,7 +47,7 @@ export const state = () => ({
     async onAuthStateChanged({ commit }, { authUser, claims }) {
       if (!authUser) {
         // ログアウトしたらページ遷移します
-        await this.$router.push("/login")
+        await this.$router.push("/login-student")
         commit('RESET_STORE')
         return
       }
