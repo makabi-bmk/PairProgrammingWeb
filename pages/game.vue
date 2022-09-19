@@ -1,6 +1,6 @@
 <template>
   <div>
-  <p>{{questionNum[0]}}-{{questionNum[1]}}</p>
+  <p v-text="message"></p>
   <!-- <div class="map"> -->
     <div v-if="role==='探検係'">
       <img v-if="roadView===0" class="map view" src="../static/road.png" />
@@ -149,6 +149,7 @@ export default {
             role: '',
             ifFirst: true,
             questionNum: [0, 0],
+            message: 0-0,
             roadView: 0,
             questionSrc: require('../static/question/1-1.png'),
             hintSrc: require('../static/hint/1-1.png'),
@@ -231,8 +232,12 @@ export default {
           this.questionNum[0] = (msg['num'])[0];
           this.questionNum[1] = (msg['num'])[1];
 
+          this.message = this.questionNum[0] + '-' + this.questionNum[1];
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           this.hintSrc     = require('../static/hint/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
+
+          // this.questionSrc.splice();
+          // this.hintSrc.splice();
 
           this.hintFlag = false;
           this.exchange = false;
