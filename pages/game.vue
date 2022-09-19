@@ -238,7 +238,6 @@ export default {
           this.hintFlag = false;
           this.questionSrc = require('../static/question/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
           this.hintSrc     = require('../static/hint/' + this.questionNum[0] + '-' + this.questionNum[1] + '.png');
-          // console.log(this.questionSrc);
         });
         
 
@@ -256,20 +255,6 @@ export default {
       this.socket.emit("close", socketData);
     },
     methods: {
-        // sendMessage() {
-        //     this.msg = this.msg.trim();
-        //     if (this.msg) {
-        //         const message = {
-        //             name: this.socket.id,
-        //             text: this.msg,
-        //         };
-        //         // イベント元はブロードキャストを受けないので自分でmessageを追加する
-        //         this.msgs.push(message);
-        //         // send-msgイベントでmessageをサーバーサイドに投げる
-        //         this.socket.emit("send-msg", message);
-        //         this.msg = "";
-        //     }
-        // },
         ho(a) {
           alert(a);
         },
@@ -295,31 +280,8 @@ export default {
                     this.locate[1] = present[1];
                     this.cells.splice();
 
-
                     console.log(Question.road[this.questionNum[0] - 1][this.questionNum[1]]);
-                    // console.log()
-                    this.roadView = Question.road[this.questionNum[0] - 1][this.questionNum[1]][this.locate[0]][this.locate[1]];
-
-                // switch(this.ans[present[0]][present[1]]) {
-                //   // case 0:
-                //   //   this.cells[present[0]][present[1]] = 2;
-                //   // break;
-
-                //   case 0:
-                //   case 1:
-                //   case 2:
-                //     this.cells[this.locate[0]][this.locate[1]] = 4;
-                //     this.cells[present[0]][present[1]] = 5;
-                  
-                //     this.locate[0] = present[0];
-                //     this.locate[1] = present[1];
-                //   break;
-
-                //   // case 2:
-                //   // this.cells[present[0]][present[1]] = 3;
-                //   // break;
-                // }
-                
+                    this.roadView = Question.road[this.questionNum[0] - 1][this.questionNum[1]][this.locate[0]][this.locate[1]];               
           }
         },
         research() {
