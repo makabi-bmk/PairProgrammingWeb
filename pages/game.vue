@@ -63,7 +63,10 @@
 
     <div v-if="role==='案内係'">
       <img id="question_img" :src="questionSrc" />
+      <v-btn @click="showHint()">ヒントを見せる</v-btn>
       <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
+      <v-btn @click="passQuestion()">この問題をパスする</v-btn>
+      <img id="hint_img" v-if="hintFlag===true" class="map view" src="../static/road.png" />
     </div>
 
     <Modal v-if="modalFlag">
@@ -148,6 +151,7 @@ export default {
             socket: "",
             modalMessage: "ペアを待っています…",
             modalFlag: true,
+            hintFlag: false,
             resultStatus: "loading",
             locate: [0,0],
             role: '',
@@ -357,11 +361,10 @@ export default {
           this.cells.splice();
         },
         exchangeRole() {
-          const socketData = {
-            // studentID : this.$store.state.studentID,
-            pairID : this.pairID
-          };
-          this.socket.emit("exchangeRole", socketData);
+          this.socket.emit("exchangeRole", {pairID : this.pairID});
+        },
+        passQuestion() {
+          this.exchangeRole();
         }
     },
 }
