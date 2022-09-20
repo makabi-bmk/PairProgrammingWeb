@@ -36,6 +36,11 @@ function wrieteLog(log) {
       fs.appendFileSync(logName, log + '\n', 'utf-8');
     } catch(err) {
       console.log(err);
+      try {
+        fs.writeFileSync(logName, '', 'utf-8');
+      } catch(err) {
+        console.log(err);
+      }
     }
   })
 }
