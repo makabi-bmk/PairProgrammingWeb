@@ -145,6 +145,7 @@ export default {
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
             studentName: this.$store.state.student_name,
+            isHelp: this.$store.state.isHelp,
             helpStudentName : '',
             countRate: [0, 0, 0],
             answer_i: 0,
@@ -203,6 +204,8 @@ export default {
       if (this.studentID == '') {
         this.$router.push("/login-student");
       } else {
+        console.log('help = ' + this.isHelp);
+
         this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
         
         // this.socket = io("http://localhost:3001");
@@ -395,6 +398,7 @@ export default {
             this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
             this.helpReq = true;
           }
+          alert('お助け係がいないか探しています');
         },
         countWin(result) {
           console.log(this.countRate);

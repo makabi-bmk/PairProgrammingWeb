@@ -10,6 +10,11 @@
   <p>{{student_name}}さん</p>
   <p>ペア：{{pair_name}}さん</p>
   <p>ペア番号：{{pair_num}}</p>
+
+  <label><input type="checkbox" id="useHelp" />ヘルプ機能を使う</label>
+
+  <br />
+
   <v-btn @click="gameStart">ゲームスタート</v-btn>
 
 
@@ -61,6 +66,7 @@ export default {
       student_name: '',
       pair_num: '',
       pair_name: '',
+      isHelp: false,
       stundentID : this.$store.state.studentID,
       classID: this.$store.state.classID,
     }
@@ -139,8 +145,6 @@ export default {
               }
             }
           });
-
-          
         }
       });
     },
@@ -148,6 +152,9 @@ export default {
       this.modalFlag = false;
     },
     gameStart() {
+      this.isHelp = document.getElementById('useHelp').checked;
+      this.$store.commit('SET_IS_HELP', this.isHelp);
+
       this.modalMessage = '読込中…';
       this.modalFlag = true;
       this.$router.push("/game");

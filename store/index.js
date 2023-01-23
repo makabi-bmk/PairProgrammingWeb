@@ -7,6 +7,7 @@ export const state = () => ({
     student_name: '',
     pair_num: '',
     pairID: '',
+    isHelp: false
   })
   
   export const getters = {
@@ -98,5 +99,8 @@ export const state = () => ({
       // if (!state.pairID.includes(newPairID)) {
       //   state.pairID.push(newPairID);
       // }
+    },
+    SET_IS_HELP(state, isHelp) {
+      state.isHelp = isHelp;
     }
   }
