@@ -206,9 +206,9 @@ export default {
       } else {
         console.log('help = ' + this.isHelp);
 
-        this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
+        // this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
         
-        // this.socket = io("http://localhost:3001");
+        this.socket = io("http://localhost:3001");
 
         this.socket.on("check_pair", msg => {
           console.log('check_pair');
@@ -283,7 +283,8 @@ export default {
         });
         
         var socketData = {
-          studentID : this.studentID
+          studentID : this.studentID,
+          is_help: this.isHelp
         };
         this.socket.emit("join", socketData);
       }

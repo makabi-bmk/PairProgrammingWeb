@@ -79,10 +79,18 @@ io.on('connection', socket => {
   console.log(`socket_id: ${socket.id} is connected.`)
 
   socket.on('join', msg=> {
+    console.log('isHelp =' + msg['is_help']);
     const studentID = msg['studentID'];
+    const isHelp = msg['is_help'];
     socketDict[studentID] = socket.id;
     // const param = {};
     io.to(socket.id).emit('join', {});
+
+    var param = {
+      studentID: studentID,
+      isHelp: isHelp
+    };
+    myAsync(JSON.stringify(param));
   });
 
   socket.on('close', msg=> {
