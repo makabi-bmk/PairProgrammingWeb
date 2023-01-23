@@ -22,7 +22,7 @@ const io = require('socket.io')(server, {
     cors: {
         origin: "http://ict-edu.okinawa-ct.ac.jp",
         // origin: "http://localhost:3000",
-        // methods: ["GET", "POST"],
+        methods: ["GET", "POST"]
         // allowHeaders: [""]
         // credentials: rue
     }
