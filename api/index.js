@@ -59,7 +59,7 @@ function checkHelp(level) {
     console.log("level = " + level);
     console.log(helpList[0]);
     if (level >= helpList[0]['level']) {
-      var helpStudent = helpList[0];
+      var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
       helpList.shift();
       rejectHelpCount = 0;
       return helpStudent;
@@ -71,7 +71,6 @@ function checkHelp(level) {
         rejectHelpCount = 0;
       }
     }
-    console.log("助けられない");
   }
   return -1;
 }
@@ -127,18 +126,21 @@ io.on('connection', socket => {
     var helpStudent = checkHelp(level);
 
     if (helpStudent != -1) {
+
+      console.log('helpStudent = ' + helpStudent);
+
       var helpStudentName = helpStudent['name'];
-      var helpStudentID = helpList['ID'];
+      var helpStudentID = helpStudent['ID'];
       var helpPairID = pairDict[helpStudentID];
 
       param['help'] = true;
       param['help_name'] = helpStudentName;
 
       console.log("help Accept");
-      console.log(helpStudent);
+      console.log(helpStudentID);
 
-      io.to(helpStudentID).emit('helpAccept');
-      io.to(helpPairID).emit('helpAccept');
+      io.to(helpStudentID).emit('help_accept', {help_studentID: socket.id});
+      io.to(helpPairID).emit('help_accept', {help_studentID: socket.id});
     }
 
     io.to(socket.id).emit('updateQuestion', param);
