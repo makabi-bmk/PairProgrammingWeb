@@ -162,6 +162,7 @@ export default {
             message: 0-0,
             roadView: 0,
             level: 1,
+            requestFlag : false,
             questionSrc: require('../static/question/1-1.png'),
             hintSrc: require('../static/hint/1-1.png'),
 
@@ -262,6 +263,7 @@ export default {
             this.modalFlag = true;
           }
 
+          this.requestFlag = false;
           this.hintFlag = false;
           this.exchange = false;
           this.pass     = false;
@@ -388,8 +390,11 @@ export default {
           this.hintFlag = true;
         },
         requestHelp() {
-          this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
-          this.helpReq = true;
+          if (this.requestFlag == false) {
+            this.requestFlag = true;
+            this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
+            this.helpReq = true;
+          }
         },
         countWin(result) {
           console.log(this.countRate);
