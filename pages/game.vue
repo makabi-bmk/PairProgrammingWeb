@@ -54,12 +54,14 @@
       <img class="modal_image" v-if="resultStatus==='goal'" src="../static/goal.png" />
       <img class="modal_image" v-if="resultStatus==='failed'" src="../static/failed.png" />
       <img class="modal_image" v-if="resultStatus==='loading'" src="../static/wait.png" />
+      <img class="modal_image" v-if="resultStatus==='help'" src="../static/wait.png" />
 
       <div>{{modalMessage}}</div>
 
       <v-btn v-if="resultStatus==='start'" @click="modalFlag=false">ゲームスタート</v-btn>
       <v-btn v-if="resultStatus==='goal'" @click="modalFlag=false; updateQuestion();">つぎにすすむ</v-btn>
       <v-btn v-if="resultStatus==='failed'" @click="modalFlag=false; resetQuestion()">もういちど</v-btn>
+      <v-btn v-if="resultStatus==='help'" @click="modalFlag=false; startTimer()">自分の宝さがしに戻る</v-btn>
 
       <!-- <a href="./login-teacher">閉じる</a> -->
   </Modal>
@@ -167,6 +169,9 @@ export default {
             endTime: 0,
             exchange: false,
             pass: false,
+            helpReq: false,
+            helpUse: false,
+            helpStudentName: '',
             cells :  [
                 [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -249,13 +254,26 @@ export default {
           // this.hintSrc.splice();
 
           if (msg['help'] == true) {
-            alert('助けて！！' + msg['help_name']);
+            // alert('助けて！！' + msg['help_name']);
+            this.resultStatus = 'help';
+            this.helpStudentName = msg['help_name'];
+            this.modalMessage = this.helpStudentName + 'さん達のお助け係になろう！';
+            this.modalFlag = true;
           }
 
           this.hintFlag = false;
           this.exchange = false;
           this.pass     = false;
+          this.helpReq = false;
+          this.helpUse = false;
+          this.helpedStudentID = '';
           this.startTime = performance.now();
+        });
+
+        this.socket.on("help_accept", msg => {
+          console.log('help_accept');
+          this.helpedStudentID = msg['help_sutdentID'];
+          alert('お助け係がくるよ！少し待っていてね');
         });
         
         var socketData = {
@@ -326,11 +344,17 @@ export default {
                 interval: this.endTime - this.startTime,
                 hint: this.hintFlag,
                 exchange: this.exchange,
+                help_req: this.helpReq,
+                help_use: this.helpUse,
+                help_student_name: this.helpStudentName,
                 pass: this.pass,
               });
 
           this.resetQuestion();
             
+        },
+        startTimer() {
+          this.startTime = performance.now();
         },
         resetQuestion() {
           this.locate[0] = 0;
@@ -349,6 +373,7 @@ export default {
             ];
           this.cells.splice();
         },
+        
         exchangeRole() {
           this.socket.emit("exchangeRole", {pairID : this.pairID});
         },
@@ -363,6 +388,7 @@ export default {
         },
         requestHelp() {
           this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
+          this.helpReq = true;
         },
         countWin(result) {
           console.log(this.countRate);
