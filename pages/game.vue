@@ -202,7 +202,7 @@ export default {
       if (this.studentID == '') {
         this.$router.push("/login-student");
       } else {
-        this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
+        this.socket = io("20.89.97.90:3001");
         
         // this.socket = io("http://localhost:3001");
 
