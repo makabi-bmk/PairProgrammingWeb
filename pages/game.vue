@@ -202,8 +202,8 @@ export default {
       if (this.studentID == '') {
         this.$router.push("/login-student");
       } else {
-        this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
-        // this.socket = io("http://localhost:3001");
+        // this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
+        this.socket = io("http://localhost:3001");
 
         this.socket.on("check_pair", msg => {
           console.log('check_pair');
