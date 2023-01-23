@@ -39,6 +39,7 @@
           <th colspan="2">
             <v-btn @click="showHint()">ヒントを見る</v-btn>
             <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
+            <v-btn @click="requestHelp()">ヘルプを出す</v-btn>
             <v-btn @click="passQuestion()">この問題をパスする</v-btn>
           </th>
         </tr>
@@ -141,6 +142,8 @@ export default {
             // c: this.$store.state.pairID,
             pairID: this.$store.state.pairID,
             studentID: this.$store.state.studentID,
+            studentName: this.$store.state.student_name,
+            helpStudentName : '',
             countRate: [0, 0, 0],
             answer_i: 0,
             msg: "",
@@ -194,8 +197,8 @@ export default {
       if (this.studentID == '') {
         this.$router.push("/login-student");
       } else {
-        this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
-        // this.socket = io("http://localhost:3001");
+        // this.socket = io("http://ict-edu.okinawa-ct.ac.jp:3001");
+        this.socket = io("http://localhost:3001");
 
         this.socket.on("check_pair", msg => {
           console.log('check_pair');
@@ -244,6 +247,10 @@ export default {
 
           // this.questionSrc.splice();
           // this.hintSrc.splice();
+
+          if (msg['help'] == true) {
+            alert('助けて！！' + msg['help_name']);
+          }
 
           this.hintFlag = false;
           this.exchange = false;
@@ -353,6 +360,9 @@ export default {
         showHint() {
           console.log('ヒント押された');
           this.hintFlag = true;
+        },
+        requestHelp() {
+          this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
         },
         countWin(result) {
           console.log(this.countRate);
