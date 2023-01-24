@@ -174,7 +174,12 @@ io.on('connection', socket => {
 
   socket.on('requestHelp', msg=> {
     var help = {ID:socket.id, level:msg['level'], name:msg['name']};
+
     helpList.push(help);
+
+    if (helpList.length > 50) {
+      helpList.shift();
+    }
     console.log("help");
     console.log(help);
   });
