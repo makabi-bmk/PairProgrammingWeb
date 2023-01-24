@@ -142,17 +142,17 @@ io.on('connection', socket => {
 
       // console.log('helpStudent = ' + helpStudent);
 
-      var helpStudentName = helpStudent['name'];
-      var helpStudentID = helpStudent['ID'];
-      var helpPairID = pairDict[helpStudentID];
-
       try {
+        var helpStudentName = helpStudent['name'];
+        var helpStudentID = helpStudent['ID'];
+        var helpPairID = pairDict[helpStudentID];
+        
         console.log("help Accept");
         console.log(helpStudentID);
 
         io.to(helpStudentID).emit('help_accept', {help_studentID: socket.id});
         io.to(helpPairID).emit('help_accept', {help_studentID: socket.id});
-        
+
         param['help'] = true;
         param['help_name'] = helpStudentName;
       } catch (error) {
