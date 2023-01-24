@@ -39,7 +39,7 @@
           <th colspan="2">
             <v-btn @click="showHint()">ヒントを見る</v-btn>
             <v-btn @click="exchangeRole()">相手と役目と交換する</v-btn>
-            <v-btn @click="requestHelp()">ヘルプを出す</v-btn>
+            <v-btn v-if="isHelp===true" @click="requestHelp()">ヘルプを出す</v-btn>
             <v-btn @click="passQuestion()">この問題をパスする</v-btn>
           </th>
         </tr>
@@ -147,6 +147,7 @@ export default {
             studentName: this.$store.state.student_name,
             isHelp: this.$store.state.isHelp,
             helpStudentName : '',
+            resetNum: 0,
             countRate: [0, 0, 0],
             answer_i: 0,
             msg: "",
@@ -272,6 +273,7 @@ export default {
           this.pass     = false;
           this.helpReq = false;
           this.helpUse = false;
+          this.resetNum = false;
           this.helpedStudentID = '';
           this.startTime = performance.now();
         });
@@ -280,6 +282,7 @@ export default {
           console.log('help_accept');
           this.helpedStudentID = msg['help_sutdentID'];
           alert('お助け係がくるよ！少し待っていてね');
+          this.helpUse = true;
         });
         
         var socketData = {
@@ -379,6 +382,12 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ];
           this.cells.splice();
+          if (this.resetNum < 2) {
+            this.resetNum++;
+          } else {
+            alert('むずかしい時は、「ヒント」「ヘルプを出す」「役目を交代する」を使ってみよう！');
+            this.resetNum = 0;
+          }
         },
         
         exchangeRole() {
@@ -399,7 +408,7 @@ export default {
             this.socket.emit("requestHelp", {level : this.level, name: this.studentName});
             this.helpReq = true;
           }
-          alert('お助け係がいないか探しています');
+          alert('お助け係を探しているよ！待っていてね。');
         },
         countWin(result) {
           console.log(this.countRate);
