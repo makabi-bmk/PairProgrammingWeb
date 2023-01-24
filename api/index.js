@@ -146,14 +146,18 @@ io.on('connection', socket => {
       var helpStudentID = helpStudent['ID'];
       var helpPairID = pairDict[helpStudentID];
 
-      param['help'] = true;
-      param['help_name'] = helpStudentName;
+      try {
+        console.log("help Accept");
+        console.log(helpStudentID);
 
-      console.log("help Accept");
-      console.log(helpStudentID);
-
-      io.to(helpStudentID).emit('help_accept', {help_studentID: socket.id});
-      io.to(helpPairID).emit('help_accept', {help_studentID: socket.id});
+        io.to(helpStudentID).emit('help_accept', {help_studentID: socket.id});
+        io.to(helpPairID).emit('help_accept', {help_studentID: socket.id});
+        
+        param['help'] = true;
+        param['help_name'] = helpStudentName;
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     io.to(socket.id).emit('updateQuestion', param);
@@ -180,12 +184,13 @@ io.on('connection', socket => {
   socket.on('requestHelp', msg=> {
     var help = {ID:socket.id, level:msg['level'], name:msg['name']};
 
-    helpList.push(help);
-
-    if (helpList.length > 50) {
+    if (helpList.length > 30) {
       helpList.shift();
       console.log(helpList);
     }
+
+    helpList.push(help);
+    
     console.log("help");
     console.log(help);
 

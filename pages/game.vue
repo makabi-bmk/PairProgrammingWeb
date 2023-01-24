@@ -274,6 +274,7 @@ export default {
           this.helpReq = false;
           this.helpUse = false;
           this.resetNum = false;
+          this.helpStudentName = '';
           this.helpedStudentID = '';
           this.startTime = performance.now();
         });
