@@ -54,18 +54,21 @@ function writeLog(log) {
   })
 }
 
-function checkHelp(level) {
+function checkHelp(socketID, level) {
   if (helpList.length > 0) {
     console.log("level = " + level);
     console.log(helpList[0]);
     if (level >= helpList[0]['level']) {
-      var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
-      helpList.shift();
-      rejectHelpCount = 0;
+      if (socketID != helpList[0]['ID'] && socketID != pairDict[socketID]) {
 
-      console.log(helpList);
+        var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
+        helpList.shift();
+        rejectHelpCount = 0;
 
-      return helpStudent;
+        console.log(helpList);
+
+        return helpStudent;
+      }
     } else {
       rejectHelpCount++;
       if (rejectHelpCount > 3) {
@@ -136,7 +139,7 @@ io.on('connection', socket => {
     param['num'] = num;
     param['help'] = false;
 
-    var helpStudent = checkHelp(level);
+    var helpStudent = checkHelp(socket.id, level);
 
     if (helpStudent != -1) {
 
