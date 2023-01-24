@@ -385,8 +385,9 @@ export default {
           if (this.resetNum < 2) {
             this.resetNum++;
           } else {
-            alert('むずかしい時は、「ヒント」「ヘルプを出す」「役目を交代する」を使ってみよう！');
+            // alert('むずかしい時は、「ヒント」「ヘルプを出す」「役目を交代する」を使ってみよう！');
             this.resetNum = 0;
+            this.requestHelp();
           }
         },
         
