@@ -62,6 +62,9 @@ function checkHelp(level) {
       var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
       helpList.shift();
       rejectHelpCount = 0;
+
+      console.log(helpList);
+
       return helpStudent;
     } else {
       rejectHelpCount++;
@@ -69,6 +72,8 @@ function checkHelp(level) {
         //TODO: ヘルプが来なかったときユーザ側に処理を返す
         helpList.shift();
         rejectHelpCount = 0;
+
+        console.log(helpList);
       }
     }
   }
@@ -135,7 +140,7 @@ io.on('connection', socket => {
 
     if (helpStudent != -1) {
 
-      console.log('helpStudent = ' + helpStudent);
+      // console.log('helpStudent = ' + helpStudent);
 
       var helpStudentName = helpStudent['name'];
       var helpStudentID = helpStudent['ID'];
@@ -179,9 +184,12 @@ io.on('connection', socket => {
 
     if (helpList.length > 50) {
       helpList.shift();
+      console.log(helpList);
     }
     console.log("help");
     console.log(help);
+
+    console.log(helpList);
   });
 
   socket.on('disconnect', () => {
