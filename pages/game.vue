@@ -388,7 +388,10 @@ export default {
           } else {
             // alert('むずかしい時は、「ヒント」「ヘルプを出す」「役目を交代する」を使ってみよう！');
             this.resetNum = 0;
-            this.requestHelp();
+            if (this.isHelp) {
+              this.requestHelp();
+            }
+            
           }
         },
         
