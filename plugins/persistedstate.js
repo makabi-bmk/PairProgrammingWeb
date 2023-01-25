@@ -9,6 +9,7 @@ export default ({store}) => {
         'student_name',
         'pair_num',
         'pairID',
+        'isHelp'
     ],
     storage: window.sessionStorage,
   })(store)

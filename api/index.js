@@ -54,21 +54,21 @@ function writeLog(log) {
   })
 }
 
-function checkHelp(socketID, level) {
+function checkHelp(ID, level) {
   if (helpList.length > 0) {
-    console.log("level = " + level);
+    // console.log("level = " + level);
     console.log(helpList[0]);
-    if (level >= helpList[0]['level']) {
-      if (socketID != helpList[0]['ID'] && socketID != pairDict[socketID]) {
 
-        var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
-        helpList.shift();
-        rejectHelpCount = 0;
+    console.log('ID      = ' + ID);
+    console.log('helpList=' + helpList[0]['ID']);
+    console.log('pair    = ' + pairDict[ID])
+    if (level >= helpList[0]['level'] && ID != helpList[0]['ID'] && ID != pairDict[ID]) {
+      var helpStudent = {ID: helpList[0]['ID'], name:helpList[0]['name']};
+      helpList.shift();
+      rejectHelpCount = 0;
 
-        console.log(helpList);
-
-        return helpStudent;
-      }
+      console.log(helpList);
+      return helpStudent;
     } else {
       rejectHelpCount++;
       if (rejectHelpCount > 3) {
