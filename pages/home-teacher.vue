@@ -1,10 +1,10 @@
 <template>
     <div>
-    <h1>クラス名</h1>
+    <h1>クラスの管理</h1>
 <v-tabs>
   <v-tab href="#tab-1">登録情報の編集</v-tab>
   <v-tab href="#tab-2">生徒情報の管理</v-tab>
-  <v-tab href="#tab-3">過去の授業ログ</v-tab>
+  <!-- <v-tab href="#tab-3">過去の授業ログ</v-tab> -->
 
   <v-tab-item value="tab-1">
   
@@ -75,7 +75,7 @@
           v-bind:key="student.id">
         <!-- <th>{{index + 1}}</th> -->
         <td><v-btn v-on:click="deleteStudent(student.studentID)">削除</v-btn></td>
-        <td>{{student.studentID}}@gmail.com</td>
+        <td>{{student.studentID}}</td>
         <td>{{student.student_name}}</td>
         <td>{{student.pair_num}}</td>
       </tr>
@@ -87,9 +87,7 @@
   <v-form ref="form" v-model="valid">
           <v-text-field
             v-model="new_mail"
-            label="メールアドレス"
-            placeholder="mail@example.com"
-            suffix="@gmail.com"
+            label="生徒ID"
             outlined
             dense
             :rules="mailRules"
@@ -105,7 +103,6 @@
           <v-text-field
             v-model="new_pair_num"
             label="ペア番号"
-            placeholder="8文字以上の半角英数記号"
             outlined
             dense
           ></v-text-field>
@@ -140,7 +137,7 @@ var students = [];
 // テーブルのヘッダー配列
 const headers = [
   ' ',
-  'メールアドレス',
+  '生徒ID',
   '生徒名',
   'ペア番号',
 ];
